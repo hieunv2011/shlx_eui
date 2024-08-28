@@ -1,4 +1,4 @@
-import React, { useState,useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import {
   EuiDataGrid,
   EuiLoadingSpinner,
@@ -6,7 +6,9 @@ import {
   EuiPageSection,
   EuiOverlayMask,
   EuiSpacer,
-  EuiButtonIcon 
+  EuiButtonIcon,
+  EuiI18n,
+  EuiPopover,
 } from "@elastic/eui";
 import { useCourses } from "../hooks/get";
 import { format } from "date-fns";
@@ -29,26 +31,30 @@ const columns = [
   { id: "synced", displayAsText: "Đồng bộ", isExpandable: false },
   { id: "actions", displayAsText: "Thao tác", isExpandable: false },
 ];
-
-
 const Trainees = () => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+  const onButtonClick = () =>
+    setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
+  const closePopover = () => setIsPopoverOpen(false);
+
   const [visibleColumns, setVisibleColumns] = useState(
     columns.map(({ id }) => id)
   );
   const handleVisibleColumns = (visibleColumns) =>
     setVisibleColumns(visibleColumns);
-  
-  const [showSide, setShowSide] = useState(true);
+
+
   const [searchParams, setSearchParams] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  
+
   const rowHeightsOptions = useMemo(
     () => ({
       defaultHeight: {
-        lineCount: 2 // default every row to 3 lines of text
+        lineCount: 2, // default every row to 3 lines of text
       },
-      lineHeight: '2em', // default every cell line-height to 2em
+      lineHeight: "2em", // default every cell line-height to 2em
     }),
     []
   );
@@ -65,7 +71,6 @@ const Trainees = () => {
   }
 
   const courses = Array.isArray(coursesData?.items) ? coursesData.items : [];
-
 
   const rowData = courses.map((item, index) => ({
     index: index + 1,
@@ -96,27 +101,22 @@ const Trainees = () => {
   const renderCellValue = ({ rowIndex, columnId }) => {
     const cellValue = rowData[rowIndex][columnId];
     if (columnId === "status") {
-      if (cellValue === 3)
-        return (
-          <h2>
-            Kết thúc
-          </h2>
-        );
-      if (cellValue === 2)
-        return (
-          <h2>
-            Học thực hành 1234
-          </h2>
-        );
-      if (cellValue === 0)
-        return (
-          <h2 >
-            Chưa diễn ra
-          </h2>
-        );
+      if (cellValue === 3) return <h2>Kết thúc</h2>;
+      if (cellValue === 2) return <h2>Học thực hành 1234</h2>;
+      if (cellValue === 0) return <h2>Chưa diễn ra</h2>;
     }
     return cellValue;
   };
+
+  const button = (
+    <EuiButtonIcon
+      iconType="documentation"
+      iconSide="right"
+      onClick={onButtonClick}
+    >
+      How it works
+    </EuiButtonIcon>
+  );
 
   return (
     <>
@@ -133,7 +133,7 @@ const Trainees = () => {
             }}
             rowCount={rowData.length}
             renderCellValue={renderCellValue}
-            inMemory={{ level: 'sorting' }}
+            inMemory={{ level: "sorting" }}
             pagination={{
               pageIndex: 0,
               pageSize: 10,
@@ -145,7 +145,25 @@ const Trainees = () => {
               showColumnSelector: {
                 allowHide: true,
                 allowReorder: true,
-              }
+              },
+              showKeyboardShortcuts: false,
+              showFullScreenSelector: false,
+              showDisplaySelector: false,
+              additionalControls: {
+                left: (
+                  <EuiPopover
+                    button={button}
+                    isOpen={isPopoverOpen}
+                    closePopover={closePopover}
+                  >
+                    <EuiText style={{ width: 200 }} size="s">
+                      <p>
+                      Sử dụng nút Columns để ẩn hiện các cột mong muốn
+                      </p>
+                    </EuiText>
+                  </EuiPopover>
+                ),
+              },
             }}
             rowHeightsOptions={rowHeightsOptions}
           />
