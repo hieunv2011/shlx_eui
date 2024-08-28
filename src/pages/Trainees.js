@@ -105,7 +105,7 @@ const Trainees = () => {
       if (cellValue === 2)
         return (
           <h2>
-            Học thực hành
+            Học thực hành heey heey hêy
           </h2>
         );
       if (cellValue === 0)
