@@ -9,6 +9,9 @@ import {
   EuiButtonIcon,
   EuiI18n,
   EuiPopover,
+  EuiProvider,
+  EuiShowFor,
+  EuiHideFor
 } from "@elastic/eui";
 import { useCourses } from "../hooks/get";
 import { format } from "date-fns";
@@ -43,7 +46,6 @@ const Trainees = () => {
   );
   const handleVisibleColumns = (visibleColumns) =>
     setVisibleColumns(visibleColumns);
-
 
   const [searchParams, setSearchParams] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
@@ -117,11 +119,10 @@ const Trainees = () => {
       How it works
     </EuiButtonIcon>
   );
-
   return (
     <>
       <EuiSpacer />
-      <CourseSearch onSearch={(params) => setSearchParams(params)} />
+        <CourseSearch onSearch={(params) => setSearchParams(params)} />
       <EuiPageSection className="">
         <div className="w-full overflow-auto border rounded-lg">
           <EuiDataGrid
@@ -147,7 +148,7 @@ const Trainees = () => {
                 allowReorder: true,
               },
               showKeyboardShortcuts: false,
-              showFullScreenSelector: false,
+              showFullScreenSelector: true,
               showDisplaySelector: false,
               additionalControls: {
                 left: (
@@ -157,9 +158,7 @@ const Trainees = () => {
                     closePopover={closePopover}
                   >
                     <EuiText style={{ width: 200 }} size="s">
-                      <p>
-                      Sử dụng nút Columns để ẩn hiện các cột mong muốn
-                      </p>
+                      <p>Sử dụng nút Columns để ẩn hiện các cột mong muốn</p>
                     </EuiText>
                   </EuiPopover>
                 ),
