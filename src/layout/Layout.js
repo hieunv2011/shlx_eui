@@ -24,6 +24,7 @@ import {
   EuiProvider,
   EuiPageBody,
   EuiBottomBar,
+  EuiHideFor,
 } from "@elastic/eui";
 import { Trainees } from "../pages";
 import SideBar from "../components/Sidebar";
@@ -50,15 +51,15 @@ const Layout = () => {
           </EuiPageSidebar>
         )}
         <EuiPageBody>
-            <Header
-              toggleSide={toggleSide}
-              darkMode={darkMode}
-              setDarkMode={setDarkMode}
-            />
-            <div className="bg-white m-8 rounded-xl">
-            <Outlet/>
-            </div>
-
+          <Header
+            toggleSide={toggleSide}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+          />
+          <div className="bg-white m-8 rounded-xl">
+            <Outlet />
+          </div>
+          <EuiHideFor sizes={["xs", "s"]}>
             <EuiBottomBar className="text-white flex space-x-4">
               <h3 className="text-xs">HỆ THỐNG QUÁN LÝ ĐÀO TẠO LÁI XE</h3>
               <h3 className="text-xs">
@@ -66,6 +67,7 @@ const Layout = () => {
                 Email: shlx@toanphuong.com.vn{" "}
               </h3>
             </EuiBottomBar>
+          </EuiHideFor>
         </EuiPageBody>
       </EuiPage>
     </EuiProvider>

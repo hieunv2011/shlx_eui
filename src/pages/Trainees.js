@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo,useEffect } from "react";
 import {
   EuiDataGrid,
   EuiLoadingSpinner,
@@ -11,72 +11,78 @@ import {
   EuiPopover,
   EuiProvider,
   EuiShowFor,
-  EuiHideFor
+  EuiHideFor,
+  useIsWithinBreakpoints 
 } from "@elastic/eui";
 import { useCourses } from "../hooks/get";
 import { format } from "date-fns";
 import CourseSearch from "../components/CourseSearch";
 import CourseInfo from "../components/CourseInfo";
-const columns = [
-  { id: "index", displayAsText: "STT", isExpandable: false },
-  { id: "ma_khoa_hoc", displayAsText: "Mã Khoá", isExpandable: false },
-  { id: "ten_khoa_hoc", displayAsText: "Tên Khoá", isExpandable: false },
-  { id: "ma_hang_dao_tao", displayAsText: "Hạng", isExpandable: false },
-  { id: "hang_gplx", displayAsText: "Hạng GP", isExpandable: false },
-  { id: "so_bci", displayAsText: "Số BCI", isExpandable: false },
-  { id: "ngay_bci", displayAsText: "Ngày BCI", isExpandable: false },
-  { id: "ngay_khai_giang", displayAsText: "Khai giảng", isExpandable: false },
-  { id: "ngay_be_giang", displayAsText: "Bế giảng", isExpandable: false },
-  { id: "so_hoc_sinh", displayAsText: "Số HS", isExpandable: false },
-  { id: "so_qd_kg", displayAsText: "QĐKG", isExpandable: false },
-  { id: "thoi_gian_dt", displayAsText: "Thời gian", isExpandable: false },
-  { id: "status", displayAsText: "Trạng thái", isExpandable: false },
-  { id: "synced", displayAsText: "Đồng bộ", isExpandable: false },
-  { id: "actions", displayAsText: "Thao tác", isExpandable: false },
-];
-const Trainees = () => {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+import { Link } from "react-router-dom";
+import { courseColumns, useColumnVisibility } from "../columns/course";
 
+const Trainees = () => {
+  //Responive Datagrid
+  const [gridStyle, setGridStyle] = useState({
+    cellPadding: 'm',
+    fontSize: 'm',
+  });
+  const isMobileView = useIsWithinBreakpoints(['xs', 's']);
+  useEffect(() => {
+    if (isMobileView) {
+      setGridStyle({
+        cellPadding: 's',
+        fontSize: 's',
+      });
+    } else {
+      setGridStyle({
+        cellPadding: 'm',
+        fontSize: 'm',
+      });
+    }
+  }, [isMobileView]); 
+  //Popover State
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const onButtonClick = () =>
     setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
   const closePopover = () => setIsPopoverOpen(false);
 
-  const [visibleColumns, setVisibleColumns] = useState(
-    columns.map(({ id }) => id)
-  );
-  const handleVisibleColumns = (visibleColumns) =>
-    setVisibleColumns(visibleColumns);
+  //Column Visible
+  const { visibleColumns,columnWidths, handleVisibleColumns } = useColumnVisibility();
 
+  //Params Search
   const [searchParams, setSearchParams] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  //Datagrid row height
   const rowHeightsOptions = useMemo(
     () => ({
       defaultHeight: {
-        lineCount: 2, // default every row to 3 lines of text
+        lineCount: 2,
       },
-      lineHeight: "2em", // default every cell line-height to 2em
+      lineHeight: "2em",
     }),
     []
   );
 
+  //Open Modal
   const handleModalOpen = (item) => {
     setSelectedItem(item);
     setShowModal(true);
   };
 
+  //Data fetch
   const { data: coursesData, error, isLoading } = useCourses(searchParams);
-
   if (error) {
     return <EuiText color="danger">Error loading courses</EuiText>;
   }
-
   const courses = Array.isArray(coursesData?.items) ? coursesData.items : [];
 
+  //Column & row data grid
   const rowData = courses.map((item, index) => ({
     index: index + 1,
-    ma_khoa_hoc: item.ma_khoa_hoc,
+    ma_khoa_hoc: <Link>{item.ma_khoa_hoc}</Link>,
     ten_khoa_hoc: item.ten_khoa_hoc,
     ma_hang_dao_tao: item.ma_hang_dao_tao,
     hang_gplx: item.hang_gplx,
@@ -99,7 +105,6 @@ const Trainees = () => {
       />
     ),
   }));
-
   const renderCellValue = ({ rowIndex, columnId }) => {
     const cellValue = rowData[rowIndex][columnId];
     if (columnId === "status") {
@@ -110,6 +115,7 @@ const Trainees = () => {
     return cellValue;
   };
 
+  //Custom header datagrid
   const button = (
     <EuiButtonIcon
       iconType="documentation"
@@ -119,15 +125,26 @@ const Trainees = () => {
       How it works
     </EuiButtonIcon>
   );
+
   return (
     <>
       <EuiSpacer />
+      {/* <EuiHideFor 
+      sizes={["xs", "s"]}>
         <CourseSearch onSearch={(params) => setSearchParams(params)} />
+      </EuiHideFor> */}
+      <CourseSearch onSearch={(params) => setSearchParams(params)} />
       <EuiPageSection className="">
         <div className="w-full overflow-auto border rounded-lg">
           <EuiDataGrid
             aria-label="Courses Data Grid"
-            columns={columns}
+            columns={courseColumns.map((col) => ({
+              id: col.id,
+              displayAsText: col.displayAsText,
+              isResizable: false,
+              isExpandable:false,
+              initialWidth: columnWidths[col.id], // Sử dụng chiều rộng điều chỉnh
+            }))}
             columnVisibility={{
               visibleColumns: visibleColumns,
               setVisibleColumns: handleVisibleColumns,
@@ -165,6 +182,7 @@ const Trainees = () => {
               },
             }}
             rowHeightsOptions={rowHeightsOptions}
+            gridStyle={gridStyle} 
           />
         </div>
       </EuiPageSection>

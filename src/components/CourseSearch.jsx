@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   EuiProvider,
   EuiFlexGroup,
@@ -14,6 +14,7 @@ import {
   EuiButtonEmpty,
   EuiButtonIcon,
   EuiShowFor,
+  useIsWithinBreakpoints
 } from "@elastic/eui";
 import { useProvinces } from "../hooks/get";
 const CourseSearch = ({ onSearch }) => {
@@ -26,6 +27,14 @@ const CourseSearch = ({ onSearch }) => {
   const [isCompressed, setCompressed] = useState(false);
   const [isDisabled, setDisabled] = useState(false);
   const [isReadOnly, setReadOnly] = useState(false);
+  const isMobileView = useIsWithinBreakpoints(["xs", "s"]);
+  useEffect(() => {
+    if (isMobileView) {
+      setCompressed(true);
+    } else {
+      setCompressed(false); 
+    }
+  }, [isMobileView]); 
 
   //Option trạng thái khoá học
   const options = [
@@ -43,7 +52,7 @@ const CourseSearch = ({ onSearch }) => {
 
   //Xử lý việc chọn tỉnh-thành
   const [proOptions, setProOptions] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState('');
+  const [selectedProvince, setSelectedProvince] = useState("");
   const { data: provinces } = useProvinces();
   useEffect(() => {
     if (provinces) {
@@ -137,9 +146,15 @@ const CourseSearch = ({ onSearch }) => {
             </EuiFormRow>
           </EuiFlexItem>
           <EuiFlexItem grow={false} className="pt-5">
-            <EuiButton fill onClick={handleSearch}>
-              Tìm
-            </EuiButton>
+            <div className="flex flex-row space-x-2">
+              <EuiButton fill onClick={handleSearch} iconType="search">
+                Tìm kiếm
+              </EuiButton>
+              <EuiButton fill color="success" onClick={handleSearch} iconType="save" className="text-white">
+                Đồng bộ
+              </EuiButton>
+              <EuiButtonIcon display="base" iconType="importAction" aria-label="Lens" size="m" />
+            </div>
           </EuiFlexItem>
         </EuiFlexGroup>
       </EuiProvider>
