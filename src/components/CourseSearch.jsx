@@ -14,7 +14,9 @@ import {
   EuiButtonEmpty,
   EuiButtonIcon,
   EuiShowFor,
-  useIsWithinBreakpoints
+  useIsWithinBreakpoints,
+  EuiDatePicker,
+  EuiDatePickerRange
 } from "@elastic/eui";
 import { useProvinces } from "../hooks/get";
 const CourseSearch = ({ onSearch }) => {

@@ -90,7 +90,7 @@ export const useColumnVisibility = () => {
     courseColumns.map(({ id }) => id)
   );
   const [columnWidths, setColumnWidths] = useState(
-    courseColumns.reduce((acc, col) => ({ ...acc, [col.id]: 150 }), {}) // Chiều rộng mặc định
+    courseColumns.reduce((acc, col) => ({ ...acc, [col.id]: 170 }), {}) // Chiều rộng mặc định
   );
   const isMobileView = useIsWithinBreakpoints(["xs", "s"]); // Kiểm tra xem kích thước màn hình là xs hoặc s
 
@@ -103,13 +103,14 @@ export const useColumnVisibility = () => {
             column !== "ngay_bci" &&
             column !== "so_qd_kg" &&
             column !== "thoi_gian_dt" &&
-            column !== "actions"
+            column !== "actions" &&
+            column !== "hang_gplx"
         )
       );
 
       setColumnWidths((prevWidths) =>
         Object.keys(prevWidths).reduce((acc, colId) => {
-          if (["index","ma_khoa_hoc", "ten_khoa_hoc", "ma_hang_dao_tao", "hang_gplx", "ngay_khai_giang", "ngay_be_giang", "so_hoc_sinh", "status", "synced"].includes(colId)) {
+          if (["index","ma_khoa_hoc", "ten_khoa_hoc", "ma_hang_dao_tao", "ngay_khai_giang", "ngay_be_giang", "so_hoc_sinh", "status", "synced"].includes(colId)) {
             acc[colId] = 50; // Chiều rộng nhỏ hơn cho màn hình nhỏ
           }
           return acc;
@@ -117,7 +118,7 @@ export const useColumnVisibility = () => {
       );
     } else {
       setVisibleColumns(courseColumns.map(({ id }) => id));
-      setColumnWidths(courseColumns.reduce((acc, col) => ({ ...acc, [col.id]: 100 }), {})); // Chiều rộng mặc định
+      setColumnWidths(courseColumns.reduce((acc, col) => ({ ...acc, [col.id]: 140 }), {})); // Chiều rộng mặc định
     }
   }, [isMobileView]);
 

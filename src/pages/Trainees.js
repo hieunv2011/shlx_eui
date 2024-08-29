@@ -1,4 +1,4 @@
-import React, { useState, useMemo,useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   EuiDataGrid,
   EuiLoadingSpinner,
@@ -12,7 +12,8 @@ import {
   EuiProvider,
   EuiShowFor,
   EuiHideFor,
-  useIsWithinBreakpoints 
+  useIsWithinBreakpoints,
+  EuiHealth,
 } from "@elastic/eui";
 import { useCourses } from "../hooks/get";
 import { format } from "date-fns";
@@ -24,23 +25,23 @@ import { courseColumns, useColumnVisibility } from "../columns/course";
 const Trainees = () => {
   //Responive Datagrid
   const [gridStyle, setGridStyle] = useState({
-    cellPadding: 'm',
-    fontSize: 'm',
+    cellPadding: "m",
+    fontSize: "m",
   });
-  const isMobileView = useIsWithinBreakpoints(['xs', 's']);
+  const isMobileView = useIsWithinBreakpoints(["xs", "s"]);
   useEffect(() => {
     if (isMobileView) {
       setGridStyle({
-        cellPadding: 's',
-        fontSize: 's',
+        cellPadding: "s",
+        fontSize: "s",
       });
     } else {
       setGridStyle({
-        cellPadding: 'm',
-        fontSize: 'm',
+        cellPadding: "m",
+        fontSize: "m",
       });
     }
-  }, [isMobileView]); 
+  }, [isMobileView]);
   //Popover State
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const onButtonClick = () =>
@@ -48,7 +49,8 @@ const Trainees = () => {
   const closePopover = () => setIsPopoverOpen(false);
 
   //Column Visible
-  const { visibleColumns,columnWidths, handleVisibleColumns } = useColumnVisibility();
+  const { visibleColumns, columnWidths, handleVisibleColumns } =
+    useColumnVisibility();
 
   //Params Search
   const [searchParams, setSearchParams] = useState({});
@@ -108,9 +110,12 @@ const Trainees = () => {
   const renderCellValue = ({ rowIndex, columnId }) => {
     const cellValue = rowData[rowIndex][columnId];
     if (columnId === "status") {
-      if (cellValue === 3) return <h2>Kết thúc</h2>;
-      if (cellValue === 2) return <h2>Học thực hành 1234</h2>;
-      if (cellValue === 0) return <h2>Chưa diễn ra</h2>;
+      if (cellValue === 3)
+        return <EuiHealth color="#FF0000">Kết thúc</EuiHealth>;
+      if (cellValue === 2)
+        return <EuiHealth color="#008000">Đang diễn ra</EuiHealth>;
+      if (cellValue === 0)
+        return <EuiHealth color="#0000FF">Inactive</EuiHealth>;
     }
     return cellValue;
   };
@@ -133,8 +138,11 @@ const Trainees = () => {
       sizes={["xs", "s"]}>
         <CourseSearch onSearch={(params) => setSearchParams(params)} />
       </EuiHideFor> */}
-      <CourseSearch onSearch={(params) => setSearchParams(params)} />
-      <EuiPageSection className="">
+      <CourseSearch
+        onSearch={(params) => setSearchParams(params)}
+        className=""
+      />
+      <EuiPageSection>
         <div className="w-full overflow-auto border rounded-lg">
           <EuiDataGrid
             aria-label="Courses Data Grid"
@@ -142,7 +150,7 @@ const Trainees = () => {
               id: col.id,
               displayAsText: col.displayAsText,
               isResizable: false,
-              isExpandable:false,
+              isExpandable: false,
               initialWidth: columnWidths[col.id], // Sử dụng chiều rộng điều chỉnh
             }))}
             columnVisibility={{
@@ -182,7 +190,7 @@ const Trainees = () => {
               },
             }}
             rowHeightsOptions={rowHeightsOptions}
-            gridStyle={gridStyle} 
+            gridStyle={gridStyle}
           />
         </div>
       </EuiPageSection>
