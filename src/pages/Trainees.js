@@ -22,6 +22,22 @@ import CourseInfo from "../components/CourseInfo";
 import { Link } from "react-router-dom";
 import { courseColumns, useColumnVisibility } from "../columns/course";
 
+// Sample data for the data grid
+const data = [
+  { id: 1, name: "Alice", age: 25, email: "alice@example.com" },
+  { id: 2, name: "Bob", age: 30, email: "bob@example.com" },
+  { id: 3, name: "Charlie", age: 35, email: "charlie@example.com" },
+  { id: 4, name: "David", age: 40, email: "david@example.com" },
+  { id: 5, name: "Eve", age: 28, email: "eve@example.com" },
+];
+
+// Define the columns for the data grid
+const columns = [
+  { id: "id", displayAsText: "ID" },
+  { id: "name", displayAsText: "Name" },
+  { id: "age", displayAsText: "Age" },
+  { id: "email", displayAsText: "Email" },
+];
 const Trainees = () => {
   //Responive Datagrid
   const [gridStyle, setGridStyle] = useState({
@@ -48,7 +64,7 @@ const Trainees = () => {
     setIsPopoverOpen((isPopoverOpen) => !isPopoverOpen);
   const closePopover = () => setIsPopoverOpen(false);
 
-  //Column Visible
+  // Column Visible
   const { visibleColumns, columnWidths, handleVisibleColumns } =
     useColumnVisibility();
 
@@ -134,10 +150,6 @@ const Trainees = () => {
   return (
     <>
       <EuiSpacer />
-      {/* <EuiHideFor 
-      sizes={["xs", "s"]}>
-        <CourseSearch onSearch={(params) => setSearchParams(params)} />
-      </EuiHideFor> */}
       <CourseSearch
         onSearch={(params) => setSearchParams(params)}
         className=""
@@ -146,13 +158,7 @@ const Trainees = () => {
         <div className="w-full overflow-auto border rounded-lg">
           <EuiDataGrid
             aria-label="Courses Data Grid"
-            columns={courseColumns.map((col) => ({
-              id: col.id,
-              displayAsText: col.displayAsText,
-              isResizable: false,
-              isExpandable: false,
-              initialWidth: columnWidths[col.id], // Sử dụng chiều rộng điều chỉnh
-            }))}
+            columns={courseColumns}
             columnVisibility={{
               visibleColumns: visibleColumns,
               setVisibleColumns: handleVisibleColumns,

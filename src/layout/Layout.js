@@ -29,12 +29,16 @@ import {
   EuiPageSection,
   EuiPageHeader,
   EuiDataGrid,
+  EuiButtonIcon,
+  EuiThemeProvider,
 } from "@elastic/eui";
 import { Trainees } from "../pages";
 import SideBar from "../components/Sidebar";
+import Sidebar_test from "../components/Sidebar_test";
+
 import Header from "../components/Header";
-import '@elastic/eui/dist/eui_theme_dark.css';
-import '@elastic/eui/dist/eui_theme_light.css';
+// import "@elastic/eui/dist/eui_theme_light.css";
+// import "@elastic/eui/dist/eui_theme_dark.css";
 
 const data = [
   { id: 1, name: "Alice", age: 25, email: "alice@example.com" },
@@ -45,73 +49,22 @@ const data = [
 
 // Define the columns for the data grid
 const columns = [
-  {
-    id: "id",
-    displayAsText: "ID",
-    defaultSortDirection: "asc",
-  },
-  {
-    id: "name",
-    displayAsText: "Name",
-    defaultSortDirection: "asc",
-  },
-  {
-    id: "age",
-    displayAsText: "Age",
-    defaultSortDirection: "asc",
-  },
-  {
-    id: "email",
-    displayAsText: "Email",
-    defaultSortDirection: "asc",
-  },
+  { id: "id", displayAsText: "ID" },
+  { id: "name", displayAsText: "Name" },
+  { id: "age", displayAsText: "Age" },
+  { id: "email", displayAsText: "Email" },
 ];
 
 const Layout = () => {
   const toggleSide = () => setShowSide(!showSide);
   const [showSide, setShowSide] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const currentPath = window.location.pathname;
   const [sideBar, setSidebar] = useState(true);
   return (
     <div>
-      {/* <EuiProvider
-      // colorMode={darkMode ? "dark" : "light"}
-      >
-        <EuiPage className="">
-          {showSide && (
-            <EuiPageSidebar className="">
-              <SideBar
-                navIsOpen={showSide}
-                toggleSide={setShowSide}
-                onItemClick={(item) => console.log(item)}
-              />
-            </EuiPageSidebar>
-          )}
-          <EuiPageBody>
-            <Header
-              toggleSide={toggleSide}
-              darkMode={darkMode}
-              setDarkMode={setDarkMode}
-            />
-            <div className="bg-white m-8 rounded-xl">
-              <Outlet />
-            </div>
-            <EuiHideFor sizes={["xs", "s"]}>
-              <EuiBottomBar className="text-white flex space-x-4">
-                <h3 className="text-xs">HỆ THỐNG QUÁN LÝ ĐÀO TẠO LÁI XE</h3>
-                <h3 className="text-xs">
-                  Giải pháp của Toàn Phương SHLX. 0904.666.329 - 0982.911.000.
-                  Email: shlx@toanphuong.com.vn{" "}
-                </h3>
-              </EuiBottomBar>
-            </EuiHideFor>
-          </EuiPageBody>
-        </EuiPage>
-      </EuiProvider> */}
-
       {/* Test */}
-      <EuiProvider colorMode="dark">
+      <EuiProvider>
         <EuiPage paddingSize="none">
           {showSide && (
             <EuiPageSidebar className="">
@@ -120,7 +73,11 @@ const Layout = () => {
                 toggleSide={setShowSide}
                 onItemClick={(item) => console.log(item)}
               /> */}
-              Ê
+              <Sidebar_test
+                navIsOpen={showSide}
+                toggleSide={setShowSide}
+                onItemClick={(item) => console.log(item)}
+              />
             </EuiPageSidebar>
           )}
           <EuiPageBody paddingSize="none" panelled={true}>
@@ -134,18 +91,7 @@ const Layout = () => {
               </EuiPageHeader>
             </EuiPageSection>
             <EuiPageSection grow>
-              <EuiDataGrid
-                aria-label="Sample Data Grid"
-                columns={columns}
-                columnVisibility={{
-                  visibleColumns: columns.map((col) => col.id),
-                  setVisibleColumns: () => {},
-                }}
-                rowCount={data.length}
-                renderCellValue={({ rowIndex, columnId }) =>
-                  data[rowIndex][columnId]
-                }
-              />
+              <Outlet />
             </EuiPageSection>
             <EuiPageSection grow>
               <EuiHideFor sizes={["xs", "s"]}>

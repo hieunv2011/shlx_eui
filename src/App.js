@@ -29,9 +29,11 @@ import { Trainees } from "./pages";
 import SideBar from "./components/Sidebar";
 import Header from "./components/Header";
 import Layout from "./layout/Layout";
+
+
 function App() {
   return (
-    <div>
+    <>
       <Router>
         <Routes>
           <Route index element={<Login />} />
@@ -49,7 +51,7 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </div>
+    </>
   );
 }
 export default App;

@@ -16,14 +16,18 @@ import {
   EuiShowFor,
   useIsWithinBreakpoints,
   EuiDatePicker,
-  EuiDatePickerRange
+  EuiDatePickerRange,
+  EuiText,
 } from "@elastic/eui";
 import { useProvinces } from "../hooks/get";
+import moment from "moment";
+
 const CourseSearch = ({ onSearch }) => {
   //Params Search
   const [ma, setMa] = useState("");
   const [name, setName] = useState("");
   const [status, setStatus] = useState("-1");
+  const [license, setLicense] = useState("-1");
 
   //Điều chỉnh style cho các input
   const [isCompressed, setCompressed] = useState(false);
@@ -34,9 +38,9 @@ const CourseSearch = ({ onSearch }) => {
     if (isMobileView) {
       setCompressed(true);
     } else {
-      setCompressed(false); 
+      setCompressed(false);
     }
-  }, [isMobileView]); 
+  }, [isMobileView]);
 
   //Option trạng thái khoá học
   const options = [
@@ -46,7 +50,19 @@ const CourseSearch = ({ onSearch }) => {
     { value: "2", text: "Học thực hành" },
     { value: "3", text: "Kết thúc" },
   ];
-
+  const licenses = [
+    { value: "B1-automatic", text: "Hạng B1 số tự động" },
+    { value: "B1", text: "Hạng B1" },
+    { value: "B2", text: "Hạng B2" },
+    { value: "C", text: "Hạng C" },
+    { value: "D", text: "Hạng D" },
+    { value: "E", text: "Hạng E" },
+    { value: "F", text: "Hạng F" },
+    { value: "FB2", text: "Hạng FB2" },
+    { value: "FC", text: "Hạng FC" },
+    { value: "FD", text: "Hạng FD" },
+    { value: "FE", text: "Hạng FE" },
+  ];
   //Trigger tìm kiếm
   const handleSearch = () => {
     onSearch({ ma, name, status });
@@ -67,9 +83,13 @@ const CourseSearch = ({ onSearch }) => {
     }
   }, [provinces]);
 
+  //Date picker
+  const [startDate, setStartDate] = useState(moment());
+  const [endDate, setEndDate] = useState(moment().add(11, "d"));
+
   return (
     <>
-      <EuiProvider>
+
         <EuiFlexGroup alignItems="center" className="px-8">
           <EuiFlexItem>
             <EuiFormRow label="Tỉnh/ Thành">
@@ -90,8 +110,8 @@ const CourseSearch = ({ onSearch }) => {
                 readOnly={isReadOnly}
               />
             </EuiFormRow>
-          </EuiFlexItem>
-          <EuiFlexItem>
+            </EuiFlexItem>
+            <EuiFlexItem>
             <EuiFormRow label="Mã Khoá">
               <EuiFieldText
                 placeholder="Nhập mã khoá học ... "
@@ -126,8 +146,8 @@ const CourseSearch = ({ onSearch }) => {
                 onChange={(e) => setName(e.target.value)}
               />
             </EuiFormRow>
-          </EuiFlexItem>
-          <EuiFlexItem>
+            </EuiFlexItem>
+            <EuiFlexItem>
             <EuiFormRow label="Trạng Thái">
               <EuiSelect
                 options={options}
@@ -147,19 +167,54 @@ const CourseSearch = ({ onSearch }) => {
               />
             </EuiFormRow>
           </EuiFlexItem>
-          <EuiFlexItem grow={false} className="pt-5">
-            <div className="flex flex-row space-x-2">
-              <EuiButton fill onClick={handleSearch} iconType="search">
-                Tìm kiếm
-              </EuiButton>
-              <EuiButton fill color="success" onClick={handleSearch} iconType="save" className="text-white">
-                Đồng bộ
-              </EuiButton>
-              <EuiButtonIcon display="base" iconType="importAction" aria-label="Lens" size="m" />
-            </div>
+          <EuiFlexItem>
+            <EuiFormRow label="Ngày bắt đầu- kết thúc" className="w-80">
+              <EuiDatePickerRange
+                
+                startDateControl={
+                  <EuiDatePicker
+                    selected={startDate}
+                    onChange={(date) => date && setStartDate(date)}
+                    startDate={startDate}
+                    endDate={endDate}
+                    aria-label="Start date"
+                    // showTimeSelect
+                  />
+                }
+                endDateControl={
+                  <EuiDatePicker
+                    selected={endDate}
+                    onChange={(date) => date && setEndDate(date)}
+                    startDate={startDate}
+                    endDate={endDate}
+                    aria-label="End date"
+                    // showTimeSelect
+                  />
+                }
+              />
+            </EuiFormRow>
           </EuiFlexItem>
         </EuiFlexGroup>
-      </EuiProvider>
+        <div className="flex flex-row space-x-2 px-8 pt-4 justify-end">
+          <EuiButton fill onClick={handleSearch} iconType="search">
+            Tìm kiếm
+          </EuiButton>
+          <EuiButton
+            fill
+            color="success"
+            onClick={handleSearch}
+            iconType="save"
+            className="text-white"
+          >
+            Đồng bộ
+          </EuiButton>
+          <EuiButtonIcon
+            display="base"
+            iconType="importAction"
+            aria-label="Lens"
+            size="m"
+          />
+        </div>
       {/* <EuiFlexGroup responsive={false}>
         <EuiSwitch
           label="compressed"
@@ -177,7 +232,6 @@ const CourseSearch = ({ onSearch }) => {
           onChange={(e) => setReadOnly(e.target.checked)}
         />
       </EuiFlexGroup> */}
-      <EuiSpacer />
     </>
   );
 };
