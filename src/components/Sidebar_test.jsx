@@ -14,12 +14,12 @@ import {
 
 const deploymentsList = [
   {
-    label: "combining-binaries",
+    label: "Giới thiệu",
     iconType: "logoAzureMono",
     size: "s",
   },
   {
-    label: "stack-monitoring",
+    label: "Liên hệ",
     iconType: "logoAWSMono",
     size: "s",
   },
@@ -38,17 +38,17 @@ export const TopNavLinks = [
 ];
 
 export const SystemNavLinks = [
-  { label: "Thiết bị DAT",iconType: "consoleApp",href:"/dat" },
-  { label: "Xe tập lái",iconType: "visGauge" },
-  { label: "Danh sách thẻ",iconType: "editorChecklist" },
-  { label: "Danh sách giáo viên",iconType: "training" },
+  { label: "Thiết bị DAT", iconType: "consoleApp", href: "/dat" },
+  { label: "Xe tập lái", iconType: "visGauge" },
+  { label: "Danh sách thẻ", iconType: "editorChecklist" },
+  { label: "Danh sách giáo viên", iconType: "training" },
 ];
 export const TraineeNavLinks = [
-  { label: "Danh sách khoá học",iconType: "notebookApp",href:"/course" },
-  { label: "Danh sách học viên",iconType:"users",href:"/trainees" },
-  { label: "Danh sách phiên học",iconType:"tableDensityExpanded" },
-  { label: "Giám sát thực hành",iconType:"logRateAnalysis" },
-  { label: "Xem dữ liệu",iconType:"dataVisualizer" },
+  { label: "Danh sách khoá học", iconType: "notebookApp", href: "/course" },
+  { label: "Danh sách học viên", iconType: "users", href: "/trainees" },
+  { label: "Danh sách phiên học", iconType: "tableDensityExpanded" },
+  { label: "Giám sát thực hành", iconType: "logRateAnalysis" },
+  { label: "Xem dữ liệu", iconType: "dataVisualizer" },
 ];
 export const DeploymentsGroup = (
   <EuiCollapsibleNavGroup
@@ -61,16 +61,13 @@ export const DeploymentsGroup = (
     iconType="logoGCPMono"
     iconSize="xl"
     isCollapsible={true}
-    initialIsOpen={false}
-    arrowDisplay="none"
+    initialIsOpen={true}
     background="dark"
   >
     <EuiListGroup listItems={deploymentsList} flush />
     <EuiSpacer size="s" />
-    <EuiButton fullWidth>Manage deployments</EuiButton>
   </EuiCollapsibleNavGroup>
 );
-
 
 const Sidebar_test = () => {
   return (
@@ -89,9 +86,8 @@ const Sidebar_test = () => {
       <EuiCollapsibleNavGroup
         title="HỆ THỐNG"
         iconType="gear"
-        isCollapsible={false}
+        isCollapsible={true}
         initialIsOpen={true}
-        arrowDisplay="none"
       >
         <EuiPinnableListGroup
           listItems={SystemNavLinks}
@@ -105,9 +101,8 @@ const Sidebar_test = () => {
       <EuiCollapsibleNavGroup
         title="HỌC VIÊN"
         iconType="user"
-        isCollapsible={false}
+        isCollapsible={true}
         initialIsOpen={true}
-        arrowDisplay="none"
       >
         <EuiPinnableListGroup
           listItems={TraineeNavLinks}

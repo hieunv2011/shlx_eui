@@ -37,10 +37,10 @@ export const useColumnVisibility = () => {
     "ngay_khai_giang",
     "ngay_be_giang",
     "so_hoc_sinh",
-    "thoi_gian_dt",
+    // "thoi_gian_dt",
     "status",
     "synced",
-    "actions"
+    "actions",
   ]);
 
   // const isMobileView = useIsWithinBreakpoints(["xs", "s"]);

@@ -122,7 +122,7 @@ const Trainees = () => {
     synced: item.synced,
     actions: (
       <>
-        <EuiToolTip position="top" content="Chỉnh sửa th">
+        <EuiToolTip position="top" content={`Chỉnh sửa thông tin ${item.ten_khoa_hoc}`}>
           <EuiButtonIcon
             iconType="documentEdit"
             aria-label="Thao tác"
@@ -132,6 +132,7 @@ const Trainees = () => {
             className="bg-blue-100 mx-2"
           />
         </EuiToolTip>
+        <EuiToolTip position="top" content={`Đồng bộ kết thúc khoá ${item.ten_khoa_hoc}`}>
         <EuiButtonIcon
           iconType="push"
           aria-label="Đồng bộ"
@@ -140,6 +141,8 @@ const Trainees = () => {
           color="danger"
           className="bg-red-100 mx-2"
         />
+        </EuiToolTip>
+        <EuiToolTip position="top" content={`Xoá khoá học ${item.ten_khoa_hoc}`}>
         <EuiButtonIcon
           iconType="cross"
           aria-label="Huỷ"
@@ -148,6 +151,7 @@ const Trainees = () => {
           color="success"
           className="bg-green-100 mx-2"
         />
+        </EuiToolTip>
       </>
     ),
   }));

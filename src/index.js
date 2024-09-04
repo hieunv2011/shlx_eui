@@ -4,17 +4,22 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { EuiProvider, euiStylisPrefixer } from '@elastic/eui';
+import createCache from '@emotion/cache';
 const queryClient = new QueryClient();
-const i18nMapping = {
-  myButtonLabel: "Haga clic en mí", // Dịch cho tiếng Tây Ban Nha
-};
+const cache = createCache({
+  key: 'codesandbox',
+  stylisPlugins: [euiStylisPrefixer],
+  container: document.querySelector('meta[name="emotion-styles"]'),
+});
+cache.compat = true;
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <EuiProvider colorMode="light">
     <QueryClientProvider client={queryClient}>
         <App />
     </QueryClientProvider>
-  </React.StrictMode>
+  </EuiProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
