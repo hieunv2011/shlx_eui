@@ -50,7 +50,7 @@ const columns = [
 
 const Layout = () => {
   const toggleSide = () => setShowSide(!showSide);
-  const [showSide, setShowSide] = useState(false); // Initialize as boolean for simplicity
+  const [showSide, setShowSide] = useState(true); // set True, mở button ở Header để bật/tắt
   const [darkMode, setDarkMode] = useState(true);
   const currentPath = window.location.pathname;
   const [sideBar, setSidebar] = useState(true);

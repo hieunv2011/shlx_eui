@@ -19,7 +19,12 @@ import Breadcrumbs from "./Breadcrumbs";
 const Header = ({ darkMode, setDarkMode, toggleSide }) => {
   const { data: meData, isLoading, error } = useMe();
   const [popOpen, setPopOpen] = useState(false);
-  // const location = useLocation();
+
+  // Hàm logout
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Xóa token khỏi localStorage
+    window.location.href = "/"; // Điều hướng về trang chủ
+  };
 
   if (isLoading) {
     return <EuiText>Loading...</EuiText>;
@@ -55,43 +60,56 @@ const Header = ({ darkMode, setDarkMode, toggleSide }) => {
   } else {
     headerLogoText = "Default Header Text";
   }
+
   const togglePopUp = () => setPopOpen(!popOpen);
 
   return (
     <EuiProvider>
       <EuiHeader className="w-full p-8" bottomBorder={true}>
         <EuiHeaderSectionItem>
-          <EuiButtonIcon
+          {/* <EuiButtonIcon
             iconType="menu"
             aria-label="Menu"
             size="m"
             color="black"
             onClick={toggleSide}
-          />
+          /> */}
           <EuiHeaderLogo>{headerLogoText}</EuiHeaderLogo>
         </EuiHeaderSectionItem>
         <EuiHeaderSectionItem>
-          {/* <EuiSwitch
-            label="Dark Mode"
-            checked={darkMode}
-            onChange={(e) => setDarkMode(e.target.checked)}
-          /> */}
           <EuiHeaderLinks aria-label="App navigation links example">
             <EuiPopover
               button={
-                <EuiAvatar
-                  size="l"
-                  name="Cat"
-                  imageUrl="https://i2.wp.com/genshinbuilds.aipurrjects.com/genshin/characters/klee/image.png?strip=all&quality=75&w=256"
-                  onClick={togglePopUp}
-                />
+                <span className="flex justify-center items-center space-x-2">
+                  <EuiText>{meData.name}</EuiText>
+                  <EuiAvatar
+                    size="l"
+                    name="Cat"
+                    imageUrl="https://i2.wp.com/genshinbuilds.aipurrjects.com/genshin/characters/klee/image.png?strip=all&quality=75&w=256"
+                    onClick={togglePopUp}
+                  />
+                </span>
               }
               isOpen={popOpen}
               closePopover={togglePopUp}
             >
               <div className="w-80">
                 <EuiText>Tên người dùng: {meData.name}</EuiText>
-                <EuiButtonIcon display="base" iconType="cross" aria-label="Close" color="danger" onClick={togglePopUp} />
+                <EuiButtonIcon
+                  iconType="cross"
+                  aria-label="Close"
+                  color="danger"
+                  onClick={togglePopUp}
+                />
+                <EuiButton
+                  fill
+                  color="danger"
+                  iconType={"push"}
+                  onClick={handleLogout}
+                  size="s"
+                >
+                  Đăng xuất
+                </EuiButton>
               </div>
             </EuiPopover>
           </EuiHeaderLinks>
