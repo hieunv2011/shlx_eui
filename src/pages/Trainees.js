@@ -1,19 +1,15 @@
 import React, { useState, useMemo, useEffect } from "react";
 import {
   EuiDataGrid,
-  EuiLoadingSpinner,
   EuiText,
   EuiPageSection,
   EuiOverlayMask,
-  EuiSpacer,
   EuiButtonIcon,
-  EuiI18n,
   EuiPopover,
-  EuiProvider,
-  EuiShowFor,
-  EuiHideFor,
   useIsWithinBreakpoints,
   EuiHealth,
+  EuiToolTip,
+  EuiContext,
 } from "@elastic/eui";
 import { useCourses } from "../hooks/get";
 import { format } from "date-fns";
@@ -22,6 +18,15 @@ import CourseInfo from "../components/CourseInfo";
 import { Link } from "react-router-dom";
 import { courseColumns, useColumnVisibility } from "../columns/course";
 
+//i18n
+const mappings = {
+  en: {
+    "euiColumnSelector.selectAll": "Hiển thị tất cả",
+    "euiColumnSelector.hideAll": "Ẩn tất cả",
+    "euiColumnSelector.button": "Lựa chọn dữ liệu hiển thị",
+    "euiTablePagination.rowsPerPage": "Số dòng của một trang",
+  },
+};
 // Sample data for the data grid
 const data = [
   { id: 1, name: "Alice", age: 25, email: "alice@example.com" },
@@ -39,6 +44,8 @@ const columns = [
   { id: "email", displayAsText: "Email" },
 ];
 const Trainees = () => {
+  //Pagination
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 6 });
   //Responive Datagrid
   const [gridStyle, setGridStyle] = useState({
     cellPadding: "m",
@@ -114,13 +121,34 @@ const Trainees = () => {
     status: item.status,
     synced: item.synced,
     actions: (
-      <EuiButtonIcon
-        iconType="menu"
-        aria-label="Thao tác"
-        size="m"
-        color="black"
-        onClick={() => handleModalOpen(item)}
-      />
+      <>
+        <EuiToolTip position="top" content="Chỉnh sửa th">
+          <EuiButtonIcon
+            iconType="documentEdit"
+            aria-label="Thao tác"
+            size="s"
+            onClick={() => handleModalOpen(item)}
+            color="primary"
+            className="bg-blue-100 mx-2"
+          />
+        </EuiToolTip>
+        <EuiButtonIcon
+          iconType="push"
+          aria-label="Đồng bộ"
+          size="s"
+          onClick={() => handleModalOpen(item)}
+          color="danger"
+          className="bg-red-100 mx-2"
+        />
+        <EuiButtonIcon
+          iconType="cross"
+          aria-label="Huỷ"
+          size="s"
+          onClick={() => handleModalOpen(item)}
+          color="success"
+          className="bg-green-100 mx-2"
+        />
+      </>
     ),
   }));
   const renderCellValue = ({ rowIndex, columnId }) => {
@@ -131,7 +159,7 @@ const Trainees = () => {
       if (cellValue === 2)
         return <EuiHealth color="#008000">Đang diễn ra</EuiHealth>;
       if (cellValue === 0)
-        return <EuiHealth color="#0000FF">Inactive</EuiHealth>;
+        return <EuiHealth color="#0000FF">Chưa diễn ra</EuiHealth>;
     }
     return cellValue;
   };
@@ -149,13 +177,17 @@ const Trainees = () => {
 
   return (
     <>
-      <EuiSpacer />
       <CourseSearch
         onSearch={(params) => setSearchParams(params)}
         className=""
       />
       <EuiPageSection>
-        <div className="w-full overflow-auto border rounded-lg">
+        <EuiContext
+          i18n={{
+            mapping: mappings.en,
+            formatNumber: (value) => new Intl.NumberFormat("en").format(value),
+          }}
+        >
           <EuiDataGrid
             aria-label="Courses Data Grid"
             columns={courseColumns}
@@ -166,12 +198,20 @@ const Trainees = () => {
             rowCount={rowData.length}
             renderCellValue={renderCellValue}
             inMemory={{ level: "sorting" }}
+            // pagination={{
+            //   pageIndex: 0,
+            //   pageSize: 10,
+            //   pageSizeOptions: [10, 20, 50],
+            //   onChangePage: () => {},
+            //   onChangeItemsPerPage: () => {},
+            // }}
             pagination={{
-              pageIndex: 0,
-              pageSize: 10,
-              pageSizeOptions: [10, 20, 50],
-              onChangePage: () => {},
-              onChangeItemsPerPage: () => {},
+              ...pagination,
+              pageSizeOptions: [6, 10, 20],
+              onChangeItemsPerPage: (pageSize) =>
+                setPagination((prev) => ({ ...prev, pageSize, pageIndex: 0 })),
+              onChangePage: (pageIndex) =>
+                setPagination((prev) => ({ ...prev, pageIndex })),
             }}
             toolbarVisibility={{
               showColumnSelector: {
@@ -189,7 +229,7 @@ const Trainees = () => {
                     closePopover={closePopover}
                   >
                     <EuiText style={{ width: 200 }} size="s">
-                      <p>Sử dụng nút Columns để ẩn hiện các cột mong muốn</p>
+                      <p>Sử dụng để ẩn hiện các cột chứa dữ liệu mong muốn</p>
                     </EuiText>
                   </EuiPopover>
                 ),
@@ -198,7 +238,7 @@ const Trainees = () => {
             rowHeightsOptions={rowHeightsOptions}
             gridStyle={gridStyle}
           />
-        </div>
+        </EuiContext>
       </EuiPageSection>
       {showModal && (
         <EuiOverlayMask>
@@ -213,3 +253,5 @@ const Trainees = () => {
 };
 
 export default Trainees;
+
+

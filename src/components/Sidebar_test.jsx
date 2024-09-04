@@ -38,14 +38,14 @@ export const TopNavLinks = [
 ];
 
 export const SystemNavLinks = [
-  { label: "Thiết bị DAT",iconType: "consoleApp" },
+  { label: "Thiết bị DAT",iconType: "consoleApp",href:"/dat" },
   { label: "Xe tập lái",iconType: "visGauge" },
   { label: "Danh sách thẻ",iconType: "editorChecklist" },
   { label: "Danh sách giáo viên",iconType: "training" },
 ];
 export const TraineeNavLinks = [
-  { label: "Danh sách khoá học",iconType: "notebookApp" },
-  { label: "Danh sách học viên",iconType:"users" },
+  { label: "Danh sách khoá học",iconType: "notebookApp",href:"/course" },
+  { label: "Danh sách học viên",iconType:"users",href:"/trainees" },
   { label: "Danh sách phiên học",iconType:"tableDensityExpanded" },
   { label: "Giám sát thực hành",iconType:"logRateAnalysis" },
   { label: "Xem dữ liệu",iconType:"dataVisualizer" },

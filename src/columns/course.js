@@ -21,8 +21,8 @@ export const courseColumns = [
   { id: "so_qd_kg", displayAsText: "QĐKG" },
   { id: "thoi_gian_dt", displayAsText: "Thời gian" },
   { id: "status", displayAsText: "Trạng thái",initialWidth:120 },
-  { id: "synced", displayAsText: "Đồng bộ" },
-  { id: "actions", displayAsText: "Thao tác" },
+  { id: "synced", displayAsText: "Đồng bộ",initialWidth:80 },
+  { id: "actions", displayAsText: "Thao tác",initialWidth:160,isExpandable:false },
 ];
 
 // Custom hook để quản lý visibleColumns và handleVisibleColumns
@@ -37,6 +37,7 @@ export const useColumnVisibility = () => {
     "ngay_khai_giang",
     "ngay_be_giang",
     "so_hoc_sinh",
+    "thoi_gian_dt",
     "status",
     "synced",
     "actions"
