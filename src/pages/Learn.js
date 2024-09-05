@@ -12,7 +12,7 @@ const Learn = () => (
         <Middle />
       </EuiPanel>
     </EuiFlexItem>
-    <EuiFlexItem grow={1} className="h-96">
+    <EuiFlexItem grow={1} className="h-screen">
       <EuiPanel>
         <Right />
       </EuiPanel>

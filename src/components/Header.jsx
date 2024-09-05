@@ -11,6 +11,10 @@ import {
   EuiAvatar,
   EuiButton,
   EuiSpacer,
+  EuiIcon,
+  EuiNotificationBadge,
+  EuiFlexGroup,
+  EuiFlexItem,
 } from "@elastic/eui";
 import { useMe } from "../hooks/get";
 import Breadcrumbs from "./Breadcrumbs";
@@ -54,15 +58,49 @@ const Header = ({ darkMode, setDarkMode, toggleSide }) => {
             color="black"
             onClick={toggleSide}
           />
-            <EuiAvatar
-              size="m"
-              name="Your Logo Description"
-              imageUrl={logo}
-              className="mx-2"
-            />
+          <EuiAvatar
+            size="m"
+            name="Your Logo Description"
+            imageUrl={logo}
+            className="mx-2"
+          />
           <Breadcrumbs />
         </EuiHeaderSectionItem>
         <EuiHeaderSectionItem>
+          <EuiFlexGroup gutterSize="s" alignItems="center" className="mr-9">
+            <EuiFlexItem grow={false} style={{ position: "relative" }}>
+              {/* Biểu tượng chuông */}
+              <EuiIcon type="email" size="l" />
+              {/* Số thông báo */}
+              <EuiNotificationBadge
+                style={{
+                  position: "absolute",
+                  top: 3,
+                  right: 3,
+                  transform: "translate(50%, -50%)", // Đặt số thông báo ở góc trên cùng bên phải
+                }}
+              >
+                5
+              </EuiNotificationBadge>
+            </EuiFlexItem>
+          </EuiFlexGroup>
+          <EuiFlexGroup gutterSize="s" alignItems="center" className="mr-9">
+            <EuiFlexItem grow={false} style={{ position: "relative" }}>
+              {/* Biểu tượng chuông */}
+              <EuiIcon type="bell" size="l" />
+              {/* Số thông báo */}
+              <EuiNotificationBadge
+                style={{
+                  position: "absolute",
+                  top: 3,
+                  right: 3,
+                  transform: "translate(50%, -50%)", // Đặt số thông báo ở góc trên cùng bên phải
+                }}
+              >
+                5
+              </EuiNotificationBadge>
+            </EuiFlexItem>
+          </EuiFlexGroup>
           <EuiHeaderLinks aria-label="App navigation links example">
             <EuiPopover
               button={
