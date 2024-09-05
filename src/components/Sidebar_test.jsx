@@ -7,6 +7,7 @@ import {
   EuiAvatar,
 } from "@elastic/eui";
 import logo from "../assets/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const deploymentsList = [
   {
@@ -33,19 +34,6 @@ export const TopNavLinks = [
   { label: "Cài đặt", pinned: true },
 ];
 
-export const SystemNavLinks = [
-  { label: "Thiết bị DAT", iconType: "consoleApp", href: "/dat" },
-  { label: "Xe tập lái", iconType: "visGauge" },
-  { label: "Danh sách thẻ", iconType: "editorChecklist" },
-  { label: "Danh sách giáo viên", iconType: "training" },
-];
-export const TraineeNavLinks = [
-  { label: "Danh sách khoá học", iconType: "notebookApp", href: "/course" },
-  { label: "Danh sách học viên", iconType: "users", href: "/trainees" },
-  { label: "Danh sách phiên học", iconType: "tableDensityExpanded" },
-  { label: "Giám sát thực hành", iconType: "logRateAnalysis" },
-  { label: "Xem dữ liệu", iconType: "dataVisualizer" },
-];
 export const DeploymentsGroup = (
   <EuiCollapsibleNavGroup
     title={
@@ -73,6 +61,61 @@ export const DeploymentsGroup = (
 );
 
 const Sidebar_test = () => {
+  const navigate = useNavigate();
+  const SystemNavLinks = [
+    {
+      label: "Thiết bị DAT",
+      iconType: "consoleApp",
+      onClick: () => navigate("/dat"),
+    },
+    {
+      label: "Xe tập lái",
+      iconType: "visGauge",
+      onClick: () => navigate("/trainningcar"),
+    },
+    {
+      label: "Danh sách thẻ",
+      iconType: "editorChecklist",
+      onClick: () => navigate("/card"),
+    },
+    {
+      label: "Danh sách giáo viên",
+      iconType: "training",
+      onClick: () => navigate("/teacher"),
+    },
+  ];
+  const TraineeNavLinks = [
+    {
+      label: "Danh sách khoá học",
+      iconType: "notebookApp",
+      onClick: () => navigate("/course"),
+    },
+    {
+      label: "Danh sách học viên",
+      iconType: "users",
+      onClick: () => navigate("/trainees"),
+    },
+    {
+      label: "Danh sách phiên học",
+      iconType: "tableDensityExpanded",
+      onClick: () => navigate("/session"),
+    },
+    {
+      label: "Giám sát thực hành",
+      iconType: "logRateAnalysis",
+      onClick: () => navigate("/outdoor"),
+    },
+    // {
+    //   label: "Xem dữ liệu",
+    //   iconType: "dataVisualizer",
+    //   onClick: () => navigate("/data"),
+    // },
+    {
+      label: "Học lái xe",
+      iconType: "notebookApp",
+      onClick: () => navigate("/learn"),
+    },
+  ];
   return (
     <>
       {DeploymentsGroup}

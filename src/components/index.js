@@ -6,3 +6,8 @@ export {default as CourseInfo} from './CourseInfo'
 export {default as CourseAM} from './CourseAM'
 export {default as CourseCar} from './CourseCar'
 export {default as Footer} from './Footer'
+
+
+export {default as Left} from './Learn/Left'
+export {default as Right} from './Learn/Right'
+export {default as Middle} from './Learn/Middle'

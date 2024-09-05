@@ -7,4 +7,5 @@ export {default as Teacher} from './Teacher'
 export {default as Trainees} from './Trainees'
 export {default as TrainningCar} from './TrainningCar'
 export {default as Outdoor} from './Outdoor'
+export {default as Learn} from './Learn'
 

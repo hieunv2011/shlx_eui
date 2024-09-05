@@ -11,6 +11,7 @@ import {
   Card,
   Course,
   Dat,
+  Learn,
   Login,
   Outdoor,
   Session,
@@ -48,6 +49,7 @@ function App() {
             <Route path="/trainees/:course_id" element={<Trainees />} />
             <Route path="/trainningcar" element={<TrainningCar />} />
             <Route path="/outdoor" element={<Outdoor />} />
+            <Route path="/learn" element={<Learn />} />
           </Route>
         </Routes>
       </Router>
