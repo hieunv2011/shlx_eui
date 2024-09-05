@@ -27,22 +27,7 @@ const mappings = {
     "euiTablePagination.rowsPerPage": "Số dòng của một trang",
   },
 };
-// Sample data for the data grid
-const data = [
-  { id: 1, name: "Alice", age: 25, email: "alice@example.com" },
-  { id: 2, name: "Bob", age: 30, email: "bob@example.com" },
-  { id: 3, name: "Charlie", age: 35, email: "charlie@example.com" },
-  { id: 4, name: "David", age: 40, email: "david@example.com" },
-  { id: 5, name: "Eve", age: 28, email: "eve@example.com" },
-];
 
-// Define the columns for the data grid
-const columns = [
-  { id: "id", displayAsText: "ID" },
-  { id: "name", displayAsText: "Name" },
-  { id: "age", displayAsText: "Age" },
-  { id: "email", displayAsText: "Email" },
-];
 const Trainees = () => {
   //Pagination
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 6 });

@@ -6,20 +6,28 @@ import {
   EuiHeaderLinks,
   EuiText,
   EuiPopover,
-  EuiButton,
   EuiProvider,
   EuiHeader,
-  EuiSwitch,
-  EuiButtonEmpty,
   EuiAvatar,
+  EuiButton,
+  EuiSpacer,
 } from "@elastic/eui";
 import { useMe } from "../hooks/get";
 import Breadcrumbs from "./Breadcrumbs";
+import logo from "../assets/logo.png";
+//i18n
+const mappings = {
+  en: {
+    "euiColumnSelector.selectAll": "Hiển thị tất cả",
+    "euiColumnSelector.hideAll": "Ẩn tất cả",
+    "euiColumnSelector.button": "Lựa chọn dữ liệu hiển thị",
+    "euiTablePagination.rowsPerPage": "Số dòng của một trang",
+  },
+};
 
 const Header = ({ darkMode, setDarkMode, toggleSide }) => {
   const { data: meData, isLoading, error } = useMe();
   const [popOpen, setPopOpen] = useState(false);
-
   // Hàm logout
   const handleLogout = () => {
     localStorage.removeItem("token"); // Xóa token khỏi localStorage
@@ -33,48 +41,26 @@ const Header = ({ darkMode, setDarkMode, toggleSide }) => {
   if (error) {
     return <EuiText color="danger">Error loading data</EuiText>;
   }
-
-  let headerLogoText = "";
-  const currentPath = window.location.pathname;
-
-  if (currentPath === "/trainees") {
-    headerLogoText = "HỌC VIÊN";
-  } else if (currentPath === "/another-path") {
-    headerLogoText = "Another Page";
-  } else if (currentPath === "/card") {
-    headerLogoText = "DANH SÁCH THẺ";
-  } else if (currentPath === "/course") {
-    headerLogoText = "DANH SÁCH KHOÁ HỌC";
-  } else if (currentPath === "/dat") {
-    headerLogoText = "THIẾT BỊ DAT";
-  } else if (currentPath === "/session") {
-    headerLogoText = "DANH SÁCH PHIÊN HỌC";
-  } else if (currentPath === "/teacher") {
-    headerLogoText = "DANH SÁCH GIÁO VIÊN";
-  } else if (currentPath === "/trainningcar") {
-    headerLogoText = "DANH SÁCH XE TẬP LÁI";
-  } else if (currentPath === "/outdoor") {
-    headerLogoText = "GIÁM SÁT THỰC HÀNH";
-  } else if (currentPath === "/trainees/:course_id") {
-    headerLogoText = "Trainees Detail";
-  } else {
-    headerLogoText = "Default Header Text";
-  }
-
   const togglePopUp = () => setPopOpen(!popOpen);
 
   return (
     <EuiProvider>
       <EuiHeader className="w-full p-8" bottomBorder={true}>
         <EuiHeaderSectionItem>
-          {/* <EuiButtonIcon
+          <EuiButtonIcon
             iconType="menu"
             aria-label="Menu"
             size="m"
             color="black"
             onClick={toggleSide}
-          /> */}
-          <EuiHeaderLogo>{headerLogoText}</EuiHeaderLogo>
+          />
+            <EuiAvatar
+              size="m"
+              name="Your Logo Description"
+              imageUrl={logo}
+              className="mx-2"
+            />
+          <Breadcrumbs />
         </EuiHeaderSectionItem>
         <EuiHeaderSectionItem>
           <EuiHeaderLinks aria-label="App navigation links example">

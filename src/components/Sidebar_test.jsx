@@ -1,16 +1,12 @@
 import React from "react";
 import {
   EuiCollapsibleNavGroup,
-  EuiText,
   EuiListGroup,
-  EuiListGroupProps,
   EuiPinnableListGroup,
-  EuiPinnableListGroupItemProps,
   EuiSpacer,
-  EuiButton,
-  EuiButtonIcon,
-  EuiLink,
+  EuiAvatar,
 } from "@elastic/eui";
+import logo from "../assets/logo.png";
 
 const deploymentsList = [
   {
@@ -53,12 +49,19 @@ export const TraineeNavLinks = [
 export const DeploymentsGroup = (
   <EuiCollapsibleNavGroup
     title={
-      <span>
-        <small style={{ fontWeight: "normal" }}>ToanPhuong</small> <br />
-        <strong>SÁT HẠCH LÁI XE</strong>
-      </span>
+      <div className="flex">
+        <EuiAvatar
+          size="m"
+          name="Your Logo Description"
+          imageUrl={logo}
+          className="mx-2"
+        />
+        <div>
+          <small style={{ fontWeight: "normal" }}>ToanPhuong</small> <br />
+          <strong>SÁT HẠCH LÁI XE</strong>
+        </div>
+      </div>
     }
-    iconType="logoGCPMono"
     iconSize="xl"
     isCollapsible={true}
     initialIsOpen={true}
@@ -87,7 +90,7 @@ const Sidebar_test = () => {
         title="HỆ THỐNG"
         iconType="gear"
         isCollapsible={true}
-        initialIsOpen={true}
+        initialIsOpen={false}
       >
         <EuiPinnableListGroup
           listItems={SystemNavLinks}
@@ -102,7 +105,7 @@ const Sidebar_test = () => {
         title="HỌC VIÊN"
         iconType="user"
         isCollapsible={true}
-        initialIsOpen={true}
+        initialIsOpen={false}
       >
         <EuiPinnableListGroup
           listItems={TraineeNavLinks}

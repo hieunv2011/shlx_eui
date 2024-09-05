@@ -1,73 +1,92 @@
 import React, { useState } from "react";
 import {
   EuiContext,
-  EuiDataGrid,
+  EuiSpacer,
+  EuiBasicTable,
+  EuiCollapsibleNavGroup,
+  EuiShowFor,
+  EuiHideFor,
 } from "@elastic/eui";
-import { useCourses } from "../hooks/get"; // Hook để lấy dữ liệu
-
-const mappings = {
-  en: {
-    "euiContext.english": "English",
-    "euiContext.french": "French",
-    "euiContext.greeting": "Welcome, {name}!",
-    "euiContext.guestNo": "You are guest #",
-    "euiContext.question": "What is your name?",
-    "euiContext.placeholder": "John Doe",
-    "euiContext.action": "Submit",
-    "euiColumnSelector.selectAll": "Hiển thị tất cả", // Thay đổi token thành 123
-  },
-};
-
+import { useCourses } from "../hooks/get";
+import CourseSearch from "../components/CourseSearch";
+import { columns } from "../columns/course_table";
 
 const Course = () => {
-  const { data } = useCourses(); // Sử dụng hook để lấy dữ liệu khóa học
-  const courses = data?.items || []; // Lấy mảng items từ dữ liệu trả về, nếu có
+  const { data } = useCourses();
+  const courses = data?.items || [];
 
-  const columns = [
-    {
-      id: "index",
-      displayAsText: "STT",
-      isResizable: false,
-      initialWidth: 45,
+  const [searchParams, setSearchParams] = useState({});
+  const [isResponsive, setIsResponsive] = useState(true);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(6);
+  const [showPerPageOptions, setShowPerPageOptions] = useState(true);
+
+  const onTableChange = ({ page }) => {
+    if (page) {
+      const { index, size } = page;
+      setPageIndex(index);
+      setPageSize(size);
+    }
+  };
+
+  const togglePerPageOptions = () => setShowPerPageOptions(!showPerPageOptions);
+  const paginatedCourses = courses.slice(
+    pageIndex * pageSize,
+    (pageIndex + 1) * pageSize
+  );
+
+  const pagination = {
+    pageIndex,
+    pageSize,
+    totalItemCount: courses.length,
+    pageSizeOptions: [6, 10, 20],
+    showPerPageOptions,
+  };
+  //i18n
+  const mappings = {
+    en: {
+      "euiTablePagination.rowsPerPageOption": "{rowsPerPage} dòng",
+      "euiTablePagination.rowsPerPage": "Số dòng của một trang",
     },
-    { id: "ma_khoa_hoc", displayAsText: "Mã Khoá", initialWidth: 120 },
-    { id: "ten_khoa_hoc", displayAsText: "Tên Khoá" },
-    { id: "ma_hang_dao_tao", displayAsText: "Hạng" },
-    { id: "hang_gplx", displayAsText: "Hạng GP" },
-    { id: "so_bci", displayAsText: "Số BCI" },
-    { id: "ngay_bci", displayAsText: "Ngày BCI" },
-    { id: "ngay_khai_giang", displayAsText: "Khai giảng" },
-    { id: "ngay_be_giang", displayAsText: "Bế giảng" },
-    { id: "so_hoc_sinh", displayAsText: "Số HS", initialWidth: 70 },
-    { id: "so_qd_kg", displayAsText: "QĐKG" },
-    { id: "thoi_gian_dt", displayAsText: "Thời gian" },
-    { id: "status", displayAsText: "Trạng thái", initialWidth: 120 },
-    { id: "synced", displayAsText: "Đồng bộ" },
-    { id: "actions", displayAsText: "Thao tác" },
-  ];
-
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 5 });
+  };
 
   return (
-    <EuiContext i18n={{ mapping: mappings.en, formatNumber: (value) => new Intl.NumberFormat('en').format(value) }}>
-      <EuiDataGrid
-        aria-label="DataGrid example"
-        columns={columns}
-        columnVisibility={{
-          visibleColumns: columns.map((col) => col.id),
-          setVisibleColumns: () => {},
-        }}
-        rowCount={courses.length}
-        renderCellValue={({ rowIndex, columnId }) => courses[rowIndex][columnId]}
-        inMemory={{ level: "sorting" }}
-        pagination={{
-          ...pagination,
-          pageSizeOptions: [5, 10, 20],
-          onChangeItemsPerPage: (pageSize) =>
-            setPagination((prev) => ({ ...prev, pageSize, pageIndex: 0 })),
-          onChangePage: (pageIndex) =>
-            setPagination((prev) => ({ ...prev, pageIndex })),
-        }}
+    <EuiContext
+      i18n={{
+        mapping: mappings.en,
+        formatNumber: (value) => new Intl.NumberFormat("en").format(value),
+      }}
+    >
+      <EuiShowFor sizes={["xs", "s", "m", "l"]}>
+        <EuiCollapsibleNavGroup
+          title="Tìm kiếm"
+          iconType="logoGCPMono"
+          iconSize="l"
+          titleSize="s"
+          isCollapsible={true}
+          initialIsOpen={false}
+        >
+          <CourseSearch
+            onSearch={(params) => setSearchParams(params)}
+            className=""
+          />
+        </EuiCollapsibleNavGroup>
+      </EuiShowFor>
+      <EuiHideFor sizes={["xs", "s", "m", "l"]}>
+        <CourseSearch
+          onSearch={(params) => setSearchParams(params)}
+          className=""
+        />
+      </EuiHideFor>
+      <EuiSpacer size="s" />
+      <EuiBasicTable
+        items={paginatedCourses}
+        itemId="id"
+        columns={columns}  // Sử dụng columns từ file đã import
+        pagination={pagination}
+        onChange={onTableChange}
+        responsive={isResponsive}
+        className="overflow-auto px-4"
       />
     </EuiContext>
   );
