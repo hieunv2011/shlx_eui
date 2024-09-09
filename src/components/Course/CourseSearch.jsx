@@ -19,7 +19,7 @@ import {
   EuiDatePickerRange,
   EuiText,
 } from "@elastic/eui";
-import { useProvinces } from "../hooks/get";
+import { useProvinces } from "../../hooks/get";
 import moment from "moment";
 
 const CourseSearch = ({ onSearch }) => {
@@ -97,14 +97,14 @@ const CourseSearch = ({ onSearch }) => {
                 options={proOptions}
                 value={selectedProvince}
                 onChange={(e) => setSelectedProvince(e.target.value)}
-                prepend={[
-                  <EuiToolTip content="content">
-                    <EuiButtonIcon
-                      iconType="mapMarker"
-                      aria-label="Gear this"
-                    />
-                  </EuiToolTip>,
-                ]}
+                // prepend={[
+                //   <EuiToolTip content="content">
+                //     <EuiButtonIcon
+                //       iconType="mapMarker"
+                //       aria-label="Gear this"
+                //     />
+                //   </EuiToolTip>,
+                // ]}
                 compressed={isCompressed}
                 disabled={isDisabled}
                 readOnly={isReadOnly}
@@ -115,11 +115,11 @@ const CourseSearch = ({ onSearch }) => {
             <EuiFormRow label="Mã Khoá">
               <EuiFieldText
                 placeholder="Nhập mã khoá học ... "
-                prepend={[
-                  <EuiToolTip content="content">
-                    <EuiButtonIcon iconType="key" aria-label="Gear this" />
-                  </EuiToolTip>,
-                ]}
+                // prepend={[
+                //   <EuiToolTip content="content">
+                //     <EuiButtonIcon iconType="key" aria-label="Gear this" />
+                //   </EuiToolTip>,
+                // ]}
                 compressed={isCompressed}
                 disabled={isDisabled}
                 readOnly={isReadOnly}
@@ -133,11 +133,11 @@ const CourseSearch = ({ onSearch }) => {
             <EuiFormRow label="Tên Khoá">
               <EuiFieldText
                 placeholder="Nhập tên khoá học ... "
-                prepend={[
-                  <EuiToolTip content="content">
-                    <EuiButtonIcon iconType="visText" aria-label="Gear this" />
-                  </EuiToolTip>,
-                ]}
+                // prepend={[
+                //   <EuiToolTip content="content">
+                //     <EuiButtonIcon iconType="visText" aria-label="Gear this" />
+                //   </EuiToolTip>,
+                // ]}
                 compressed={isCompressed}
                 disabled={isDisabled}
                 readOnly={isReadOnly}
@@ -153,14 +153,14 @@ const CourseSearch = ({ onSearch }) => {
                 options={options}
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                prepend={[
-                  <EuiToolTip content="content">
-                    <EuiButtonIcon
-                      iconType="faceHappy"
-                      aria-label="Gear this"
-                    />
-                  </EuiToolTip>,
-                ]}
+                // prepend={[
+                //   <EuiToolTip content="content">
+                //     <EuiButtonIcon
+                //       iconType="faceHappy"
+                //       aria-label="Gear this"
+                //     />
+                //   </EuiToolTip>,
+                // ]}
                 compressed={isCompressed}
                 disabled={isDisabled}
                 readOnly={isReadOnly}

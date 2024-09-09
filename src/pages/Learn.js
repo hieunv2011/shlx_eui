@@ -4,18 +4,18 @@ import { Left, Middle, Right } from "../components";
 
 const Learn = () => (
   <EuiFlexGroup>
-    <EuiFlexItem grow={1}>
+    {/* <EuiFlexItem grow={1}>
       <Left />
-    </EuiFlexItem>
-    <EuiFlexItem grow={3}>
+    </EuiFlexItem> */}
+    <EuiFlexItem grow={7}>
       <EuiPanel>
         <Middle />
       </EuiPanel>
     </EuiFlexItem>
-    <EuiFlexItem grow={1} className="h-screen">
-      <EuiPanel>
+    <EuiFlexItem grow={3} className="h-[500px]">
+      {/* <EuiPanel> */}
         <Right />
-      </EuiPanel>
+      {/* </EuiPanel> */}
     </EuiFlexItem>
   </EuiFlexGroup>
 );

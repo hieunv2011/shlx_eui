@@ -8,7 +8,7 @@ import {
   EuiHideFor,
 } from "@elastic/eui";
 import { useCourses } from "../hooks/get";
-import CourseSearch from "../components/CourseSearch";
+import CourseSearch from "../components/Course/CourseSearch";
 import { columns } from "../columns/course_table";
 
 const Course = () => {
@@ -18,7 +18,7 @@ const Course = () => {
   const [searchParams, setSearchParams] = useState({});
   const [isResponsive, setIsResponsive] = useState(true);
   const [pageIndex, setPageIndex] = useState(0);
-  const [pageSize, setPageSize] = useState(6);
+  const [pageSize, setPageSize] = useState(10);
   const [showPerPageOptions, setShowPerPageOptions] = useState(true);
 
   const onTableChange = ({ page }) => {
@@ -39,7 +39,7 @@ const Course = () => {
     pageIndex,
     pageSize,
     totalItemCount: courses.length,
-    pageSizeOptions: [6, 10, 20],
+    pageSizeOptions: [10, 20],
     showPerPageOptions,
   };
   //i18n

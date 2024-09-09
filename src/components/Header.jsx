@@ -49,7 +49,7 @@ const Header = ({ darkMode, setDarkMode, toggleSide }) => {
 
   return (
     <EuiProvider>
-      <EuiHeader className="w-full p-8" bottomBorder={true}>
+      <EuiHeader className="w-full p-8" >
         <EuiHeaderSectionItem>
           <EuiButtonIcon
             iconType="menu"
