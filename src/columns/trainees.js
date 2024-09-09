@@ -1,67 +1,93 @@
 import React from "react";
-import { EuiHealth, EuiButtonIcon, EuiToolTip } from "@elastic/eui";
+import {
+  EuiHealth,
+  EuiButtonIcon,
+  EuiToolTip,
+  EuiAvatar,
+  EuiText,
+  EuiLink,
+} from "@elastic/eui";
 import { format } from "date-fns";
+import { render } from "@testing-library/react";
 
 export const columns = [
   {
-    field: "ma_khoa_hoc",
-    name: "Mã Khoá",
+    field: "so_tt",
+    name: "STT",
     mobileOptions: {
       header: true,
     },
-    width: "150px",
+    width: "50px",
+    align: "center",
+  },
+  {
+    field: "anh_chan_dung",
+    name: "",
+    render: (cellValue) => {
+      return <EuiAvatar size="l" name="Cat" imageUrl={cellValue} />;
+    },
+    mobileOptions: {
+      header: true,
+    },
+    width: "50px",
   },
   {
     field: "ho_va_ten",
     name: "Họ và tên",
-    mobileOptions: {
-      header: true,
-    },
-  },
-  {
-    field: "ma_hang_dao_tao",
-    name: "Hạng",
-    align: "center",
-    mobileOptions: {
-      header: true,
-    },
-  },
-  {
-    field: "ngay_khai_giang",
-    name: "Khai giảng",
-    // render: (item) => format(new Date(item), "dd/MM/yyyy"),
-    mobileOptions: {
-      header: true,
-    },
-  },
-  {
-    field: "ngay_be_giang",
-    name: "Bế giảng",
-    // render: (item) => format(new Date(item), "dd/MM/yyyy"),
-    mobileOptions: {
-      header: true,
-    },
-  },
-  {
-    field: "so_hoc_sinh",
-    name: "Số HS",
-    align: "center",
-    mobileOptions: {
-      header: true,
-    },
-  },
-  {
-    field: "status",
-    name: "Trạng thái",
     render: (cellValue) => {
-      if (cellValue === 3)
-        return <EuiHealth color="#FF0000">Kết thúc</EuiHealth>;
-      if (cellValue === 2)
-        return <EuiHealth color="#008000">Đang diễn ra</EuiHealth>;
-      if (cellValue === 0)
-        return <EuiHealth color="#0000FF">Chưa diễn ra</EuiHealth>;
-      return null; // Trường hợp không khớp với bất kỳ giá trị nào ở trên
+      return <EuiLink>{cellValue}</EuiLink>;
     },
+    mobileOptions: {
+      header: true,
+    },
+    width: "200px",
+  },
+  {
+    field: "ma_dk",
+    name: "Mã ĐK",
+    mobileOptions: {
+      header: true,
+    },
+    width: "200px",
+  },
+  {
+    field: "hang_daotao",
+    name: "Hạng đào tạo",
+    mobileOptions: {
+      header: true,
+    },
+  },
+  {
+    field: "ngay_sinh",
+    name: "Ngày sinh",
+    render: (item) => format(new Date(item), "dd/MM/yyyy"),
+    mobileOptions: {
+      header: true,
+    },
+  },
+  {
+    field: "gioi_tinh",
+    name: "Giới tính",
+    render: (cellValue) => {
+      if (cellValue === "F") return <EuiText>Nữ</EuiText>;
+      if (cellValue === "M") return <EuiText>Nam</EuiText>;
+    },
+    mobileOptions: {
+      header: true,
+    },
+  },
+  {
+    field: "so_cmt",
+    name: "Số CMT",
+    align: "center",
+    mobileOptions: {
+      header: true,
+    },
+  },
+  {
+    field: "rfid_card",
+    name: "ID thẻ",
+    align: "center",
     mobileOptions: {
       header: true,
     },

@@ -31,6 +31,7 @@ import {
   EuiButtonIcon,
   EuiThemeProvider,
   EuiText,
+  EuiPanel,
 } from "@elastic/eui";
 import { motion } from "framer-motion";
 import SideBar from "../components/Sidebar";
@@ -39,6 +40,7 @@ import Header from "../components/Header";
 // import '@elastic/eui/dist/eui_theme_light.css';
 // import '@elastic/eui/dist/eui_theme_dark.css';
 import { Footer } from "../components";
+import HeaderTest from "../components/HeaderTest";
 
 // Define the columns for the data grid
 const columns = [
@@ -68,7 +70,7 @@ const Layout = () => {
           </EuiPageTemplate.Sidebar>
         )}
         <EuiPageTemplate.Header bottomBorder={false}>
-          <Header
+          <HeaderTest
             toggleSide={toggleSide}
             darkMode={darkMode}
             setDarkMode={setDarkMode}
