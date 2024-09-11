@@ -15,9 +15,17 @@ import {
 } from "@elastic/eui";
 import { useTrainees } from "../hooks/get";
 import { columns } from "../columns/trainees";
-import TraineesSearch from "../components/Trainees/TraineesSearch";
-import TraineesModal from "../components/Trainees/TraineesModal";
-import TraineesCard from "../components/Trainees/TraineesCard";
+// import TraineesSearch from "../components/Trainees/TraineesSearch";
+// import TraineesModal from "../components/Trainees/TraineesModal";
+// import TraineesCard from "../components/Trainees/TraineesCard";
+import {
+  TraineesCard,
+  TraineesModal,
+  TraineesFace,
+  TraineesFinger,
+  TraineesInfo,
+  TraineesSearch,
+} from "../components";
 import { createColumns } from "../columns/trainees";
 import { useParams } from "react-router-dom";
 
@@ -38,7 +46,7 @@ const Trainees = () => {
   // const trainees = data?.items || [];
   //test
   const { course_id } = useParams();
-  console.log(course_id);
+  // console.log(course_id);
 
   const [searchParams, setSearchParams] = useState({});
   const [pageIndex, setPageIndex] = useState(0);
@@ -61,14 +69,19 @@ const Trainees = () => {
   //   return <EuiText color="danger">Error loading </EuiText>;
   // }
   const trainees = Array.isArray(traineesData?.items) ? traineesData.items : [];
-  //Mở Modal,Card modal
+  //Mở Modal,Card,Info,Finger,Face modal
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isCardVisible, setIsCardVisible] = useState(false);
+  const [isInfoVisible, setIsInfoVisible] = useState(false);
+  const [isFingerVisible, setIsFingerVisible] = useState(false);
+
   const [selectedTrainee, setSelectedTrainee] = useState("");
   const [selectedTraineeId, setSelectedTraineeId] = useState("");
 
   const closeModal = () => setIsModalVisible(false);
   const closeCard = () => setIsCardVisible(false);
+  const closeInfo = () => setIsInfoVisible(false);
+  const closeFinger = () => setIsFingerVisible(false);
 
   const showModal = (trainee) => {
     setSelectedTrainee(trainee);
@@ -78,9 +91,25 @@ const Trainees = () => {
   const showCard = (trainee) => {
     setIsCardVisible(true);
   };
+  const showInfo = (trainee) => {
+    setSelectedTrainee(trainee);
+    setSelectedTraineeId(trainee.id);
+    setIsInfoVisible(true);
+  };
+  const showFinger = (trainee) => {
+    setSelectedTrainee(trainee);
+    setSelectedTraineeId(trainee.id);
+    setIsFingerVisible(true);
+  };
 
   //Logic Table
-  const columns = createColumns(showModal, showCard);
+  const columns = createColumns(
+    showModal,
+    showCard,
+    showInfo,
+    showFinger
+    // showFace
+  );
   const onTableChange = ({ page }) => {
     if (page) {
       const { index, size } = page;
@@ -165,6 +194,31 @@ const Trainees = () => {
         isModalVisible={isCardVisible}
         closeModal={closeCard}
       />
+      <TraineesInfo
+        trainee={selectedTrainee}
+        traineeId={selectedTraineeId}
+        isModalVisible={isInfoVisible}
+        closeModal={closeInfo}
+      />
+      <TraineesFinger
+        trainee={selectedTrainee}
+        traineeId={selectedTraineeId}
+        isModalVisible={isFingerVisible}
+        closeModal={closeFinger}
+      />
+      {/*
+      <TraineesFinger
+        trainee={selectedTrainee}
+        traineeId={selectedTraineeId}
+        isModalVisible={isFingerVisible}
+        closeModal={closeFinger}
+      />
+      <TraineesFace
+        trainee={selectedTrainee}
+        traineeId={selectedTraineeId}
+        isModalVisible={isFaceVisible}
+        closeModal={closeFace}
+      /> */}
       {/* <EuiSplitPanel.Outer direction="row">
         <EuiSplitPanel.Inner color="danger">1</EuiSplitPanel.Inner>
         <EuiSplitPanel.Inner color="success">2</EuiSplitPanel.Inner>

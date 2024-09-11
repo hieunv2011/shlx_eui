@@ -9,8 +9,9 @@ import {
   EuiProvider,
 } from "@elastic/eui";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 // Chỉnh sửa để nhận hàm `showModal` từ component cha
-export const createColumns = (showModal,showCard) => [
+export const createColumns = (showModal,showCard,showInfo,showFinger,) => [
   // {
   //   field: "so_tt",
   //   name: "STT",
@@ -35,7 +36,7 @@ export const createColumns = (showModal,showCard) => [
     field: "ho_va_ten",
     name: "Họ và tên",
     render: (trainee, item) => (
-      <EuiLink>{trainee}</EuiLink>
+      <EuiLink onClick={() => showModal(item)}>{trainee}</EuiLink>
     ),
     mobileOptions: {
       header: true,
@@ -48,7 +49,7 @@ export const createColumns = (showModal,showCard) => [
     mobileOptions: {
       header: true,
     },
-    width: "250px",
+    width: "180px",
   },
   {
     field: "hang_daotao",
@@ -86,7 +87,7 @@ export const createColumns = (showModal,showCard) => [
     mobileOptions: {
       header: true,
     },
-    width:"130px"
+    width:"100px"
   },
   {
     field: "rfid_card_name",
@@ -142,29 +143,31 @@ export const createColumns = (showModal,showCard) => [
     field: "actions",
     name: "Thao tác",
     align: "center",
-    render: (item) => (
+    render: (trainee,item) => (
       <EuiProvider className="flex">
-        <EuiToolTip position="top" content={`Thông tin học viên`}>
+        <EuiToolTip position="top" content={`Chỉnh sửa thông tin`}>
           <EuiButtonIcon
-            iconType="indexEdit"
+            iconType="documentEdit"
             aria-label="Chỉnh sửa"
             size="s"
             color="primary"
             className="mx-2"
+            onClick={() => showInfo(item)}
           />
         </EuiToolTip>
         <EuiToolTip position="top" content={`Đăng ký vân tay`}>
           <EuiButtonIcon
-            iconType="userAvatar"
+            iconType="push"
             aria-label="Đồng bộ"
             size="s"
             color="danger"
             className="mx-2"
+            onClick={() => showFinger(item)}
           />
         </EuiToolTip>
-        <EuiToolTip position="top" content={`Đăng ký nhận dạng khuôn mặt`}>
+        <EuiToolTip position="top" content={`Xoá khoá học`}>
           <EuiButtonIcon
-            iconType="faceHappy"
+            iconType="cross"
             aria-label="Xoá"
             size="s"
             color="success"

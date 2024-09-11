@@ -4,6 +4,7 @@ import { fetchMe } from '../api/me';
 import { fetchProvinces } from '../api/province';
 import { fetchTrainnes } from "../api/trainees";
 import { fetchOutdoor } from "../api/outdoor";
+import { fetchAd } from "../api/attendance_devices";
 
 export const useCourses = (params = {}) => {
   return useQuery({
@@ -43,5 +44,13 @@ export const useOutdoor = (params = {}) => {
     queryFn: () => fetchOutdoor(params),
     // enabled: true,
     enabled: !!params.trainee_id
+  });
+};
+export const useAd = (params = {}) => {
+  return useQuery({
+    queryKey: ['attendance_devices', params],
+    queryFn: () => fetchAd(params),
+    enabled: true,
+    // enabled: !!params.trainee_id
   });
 };
