@@ -1,8 +1,9 @@
 import React from "react";
-import { EuiHealth, EuiButtonIcon, EuiToolTip } from "@elastic/eui";
+import { EuiHealth, EuiButtonIcon, EuiToolTip, EuiLink } from "@elastic/eui";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
-export const columns = [
+export const createColumns = (navigateTrainees) => [
   {
     field: "ma_khoa_hoc",
     name: "Mã Khoá",
@@ -10,6 +11,9 @@ export const columns = [
       header: true,
     },
     width: "150px",
+    render: (course, item) => (
+      <EuiLink onClick={() => navigateTrainees(item.id)}>{course}</EuiLink>
+    ),
   },
   {
     field: "ten_khoa_hoc",

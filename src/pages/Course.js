@@ -6,20 +6,41 @@ import {
   EuiCollapsibleNavGroup,
   EuiShowFor,
   EuiHideFor,
+  EuiPanel,
+  EuiText
 } from "@elastic/eui";
 import { useCourses } from "../hooks/get";
 import CourseSearch from "../components/Course/CourseSearch";
-import { columns } from "../columns/course_table";
+import { createColumns } from "../columns/course_table";
+import { useNavigate } from "react-router-dom";
 
 const Course = () => {
-  const { data } = useCourses();
-  const courses = data?.items || [];
-
+  // const { data } = useCourses();
+  // const courses = data?.items || [];
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState({});
   const [isResponsive, setIsResponsive] = useState(true);
+  
+  //Pagination
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [showPerPageOptions, setShowPerPageOptions] = useState(true);
+
+  const { data: coursesData, error, isLoading } = useCourses(searchParams);
+  if (isLoading)
+  {
+    return <EuiText color="danger">Loading</EuiText>;
+  }
+  if (error) {
+    return <EuiText color="danger">Error loading courses</EuiText>;
+  }
+  const courses = Array.isArray(coursesData?.items) ? coursesData.items : [];
+
+  //Navigation and Columns
+  const navigateTrainees = (courseId) => {
+    navigate(`/trainees/${courseId}`);
+  };
+  const columns = createColumns(navigateTrainees);
 
   const onTableChange = ({ page }) => {
     if (page) {
@@ -29,7 +50,7 @@ const Course = () => {
     }
   };
 
-  const togglePerPageOptions = () => setShowPerPageOptions(!showPerPageOptions);
+
   const paginatedCourses = courses.slice(
     pageIndex * pageSize,
     (pageIndex + 1) * pageSize
@@ -57,37 +78,41 @@ const Course = () => {
         formatNumber: (value) => new Intl.NumberFormat("en").format(value),
       }}
     >
-      <EuiShowFor sizes={["xs", "s", "m", "l"]}>
-        <EuiCollapsibleNavGroup
-          title="Tìm kiếm"
-          iconType="logoGCPMono"
-          iconSize="l"
-          titleSize="s"
-          isCollapsible={true}
-          initialIsOpen={false}
-        >
+      <EuiPanel paddingSize="m">
+        <EuiShowFor sizes={["xs", "s", "m", "l"]}>
+          <EuiCollapsibleNavGroup
+            title="Tìm kiếm"
+            iconType="logoGCPMono"
+            iconSize="l"
+            titleSize="s"
+            isCollapsible={true}
+            initialIsOpen={false}
+          >
+            <CourseSearch
+              onSearch={(params) => setSearchParams(params)}
+              className=""
+            />
+          </EuiCollapsibleNavGroup>
+        </EuiShowFor>
+        <EuiHideFor sizes={["xs", "s", "m", "l"]}>
           <CourseSearch
             onSearch={(params) => setSearchParams(params)}
             className=""
           />
-        </EuiCollapsibleNavGroup>
-      </EuiShowFor>
-      <EuiHideFor sizes={["xs", "s", "m", "l"]}>
-        <CourseSearch
-          onSearch={(params) => setSearchParams(params)}
-          className=""
+        </EuiHideFor>
+      </EuiPanel>
+      <EuiSpacer size="m" />
+      <EuiPanel paddingSize="m">
+        <EuiBasicTable
+          items={paginatedCourses}
+          itemId="id"
+          columns={columns} // Sử dụng columns từ file đã import
+          pagination={pagination}
+          onChange={onTableChange}
+          // responsive={isResponsive}
+          className="overflow-auto px-4"
         />
-      </EuiHideFor>
-      <EuiSpacer size="s" />
-      <EuiBasicTable
-        items={paginatedCourses}
-        itemId="id"
-        columns={columns}  // Sử dụng columns từ file đã import
-        pagination={pagination}
-        onChange={onTableChange}
-        responsive={isResponsive}
-        className="overflow-auto px-4"
-      />
+      </EuiPanel>
     </EuiContext>
   );
 };

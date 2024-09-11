@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   EuiAvatar,
   EuiBreadcrumbs,
@@ -38,9 +39,79 @@ import {
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useMe } from "../hooks/get";
+import Breadcrumbs from "./Breadcrumbs";
 
 const HeaderTest = ({ darkMode, setDarkMode, toggleSide }) => {
   const { data: meData, isLoading, error } = useMe();
+  const navigate = useNavigate();
+  const currentPath = window.location.pathname;
+  let headerLogoText;
+  if (currentPath === "/trainees") {
+    headerLogoText = "HỌC VIÊN";
+  } else if (currentPath === "/another-path") {
+    headerLogoText = "Another Page";
+  } else if (currentPath === "/card") {
+    headerLogoText = "DANH SÁCH THẺ";
+  } else if (currentPath === "/course") {
+    headerLogoText = "DANH SÁCH KHOÁ HỌC";
+  } else if (currentPath === "/dat") {
+    headerLogoText = "THIẾT BỊ DAT";
+  } else if (currentPath === "/session") {
+    headerLogoText = "DANH SÁCH PHIÊN HỌC";
+  } else if (currentPath === "/teacher") {
+    headerLogoText = "DANH SÁCH GIÁO VIÊN";
+  } else if (currentPath === "/trainningcar") {
+    headerLogoText = "DANH SÁCH XE TẬP LÁI";
+  } else if (currentPath === "/outdoor") {
+  } else if (currentPath === "/trainningcar") {
+    headerLogoText = "DANH SÁCH XE TẬP LÁI";
+  } else if (currentPath === "/outdoor") {
+    headerLogoText = "GIÁM SÁT THỰC HÀNH";
+  } else if (currentPath === "/trainees/:course_id") {
+    headerLogoText = "Trainees Detail";
+  } else if (currentPath ==="/learn"){
+    headerLogoText = "HỌC LÁI XE";
+  }
+   else {
+    headerLogoText = "Default Header Text";
+  }
+
+  const [showHeaderText, setShowHeaderText] = useState(true);
+  const [spaces, setSpaces] = useState([
+    {
+      label: "Dashboard",
+      prepend: (
+        <EuiAvatar type="space" size="s" name="Jim" iconType="dashboardApp" />
+      ),
+    },
+    {
+      label: "Tài khoản",
+      prepend: <EuiAvatar type="space" size="s" name="Jim" iconType="user" />,
+    },
+    {
+      label: "Cài đặt",
+      prepend: <EuiAvatar type="space" size="s" name="Pam" iconType="gear" />,
+    },
+    {
+      label: "Hệ thống",
+      prepend: (
+        <EuiAvatar
+          type="space"
+          size="s"
+          name="Michael"
+          iconType="managementApp"
+        />
+      ),
+    },
+    {
+      label: "Học viên",
+      checked: "on",
+      prepend: (
+        <EuiAvatar type="space" size="s" name="Dwight" iconType="users" />
+      ),
+    },
+  ]);
+
   const renderLogo = () => (
     <>
       <EuiAvatar
@@ -60,41 +131,163 @@ const HeaderTest = ({ darkMode, setDarkMode, toggleSide }) => {
   );
 
   const renderBreadcrumbs = () => {
-    const breadcrumbs = [
+    // const breadcrumbs = [
+    //   {
+    //     text: "Trang chủ",
+    //     href: "#",
+    //     onClick: (e) => {
+    //       e.preventDefault();
+    //     },
+    //     "data-test-subj": "breadcrumbsAnimals",
+    //     className: "customClass",
+    //   },
+    //   {
+    //     text: "Học viên",
+    //     href: "#",
+    //     onClick: (e) => {
+    //       e.preventDefault();
+    //     },
+    //   },
+    //   {
+    //     text: "Users",
+    //     href: "#",
+    //     onClick: (e) => {
+    //       e.preventDefault();
+    //     },
+    //   },
+    //   {
+    //     text: "Hidden",
+    //     href: "#",
+    //     onClick: (e) => {
+    //       e.preventDefault();
+    //     },
+    //   },
+    //   {
+    //     text: "Create",
+    //   },
+    // ];
+    const handleSpaceChange = (newOptions) => {
+      setSpaces(newOptions);
+      const selectedSpace = newOptions.find((space) => space.checked === "on");
+  
+      if (selectedSpace) {
+        if (["Dashboard", "Tài khoản", "Cài đặt"].includes(selectedSpace.label)) {
+          setShowHeaderText(false);
+        } else {
+          setShowHeaderText(true);
+          if (selectedSpace.label === "Hệ thống") {
+            navigate("/dat");
+          } else if (selectedSpace.label === "Học viên") {
+            navigate("/course");
+          }
+        }
+      }
+    };
+  
+    const systemItems = [
       {
-        text: "Management",
-        href: "#",
-        onClick: (e) => {
-          e.preventDefault();
-        },
-        "data-test-subj": "breadcrumbsAnimals",
-        className: "customClass",
+        label: "Thiết bị DAT",
+        onClick: () => navigate("/dat"),
       },
       {
-        text: "Truncation test is here for a really long item",
-        href: "#",
-        onClick: (e) => {
-          e.preventDefault();
-        },
+        label: "Xe tập lái",
+        onClick: () => navigate("/trainningcar"),
       },
       {
-        text: "Hidden",
-        href: "#",
-        onClick: (e) => {
-          e.preventDefault();
-        },
+        label: "Danh sách thẻ",
+        onClick: () => navigate("/card"),
       },
       {
-        text: "Users",
-        href: "#",
-        onClick: (e) => {
-          e.preventDefault();
-        },
-      },
-      {
-        text: "Create",
+        label: "Danh sách giáo viên",
+        onClick: () => navigate("/teacher"),
       },
     ];
+  
+    const traineeItems = [
+      {
+        label: "Danh sách khoá học",
+        onClick: () => navigate("/course"),
+      },
+      {
+        label: "Danh sách học viên",
+        onClick: () => navigate("/trainees"),
+      },
+      {
+        label: "Danh sách phiên học",
+        onClick: () => navigate("/session"),
+      },
+      {
+        label: "Giám sát thực hành",
+        onClick: () => navigate("/outdoor"),
+      },
+      {
+        label: "Xem dữ liệu",
+        onClick: () => navigate("/data"),
+      },
+      {
+        label: "Học lái xe",
+        onClick: () => navigate("/learn"),
+      },
+    ];
+    const breadcrumbs = [
+      {
+        text: "Trang chủ",
+      },
+      {
+        text: spaces.find((space) => space.checked === "on")?.label,
+        popoverContent: (
+          <EuiSelectable
+            singleSelection="always"
+            options={spaces}
+            onChange={handleSpaceChange}
+            searchable
+            searchProps={{ placeholder: "Filter spaces", compressed: true }}
+            aria-label="Space switcher"
+            emptyMessage="No spaces available"
+            noMatchesMessage="No spaces found"
+          >
+            {(list, search) => (
+              <>
+                <EuiPopoverTitle paddingSize="s">Tìm kiếm</EuiPopoverTitle>
+                <EuiPopoverTitle paddingSize="s">{search}</EuiPopoverTitle>
+                {list}
+                <EuiPopoverFooter paddingSize="s">
+                  <EuiButton fullWidth size="s" iconType="gear"></EuiButton>
+                </EuiPopoverFooter>
+              </>
+            )}
+          </EuiSelectable>
+        ),
+        popoverProps: { panelPaddingSize: "none" },
+      },
+    ];
+    if (showHeaderText) {
+    breadcrumbs.push({
+      text: headerLogoText,
+  popoverContent: (
+    <EuiSelectable
+      singleSelection="always"
+      options={currentPath.startsWith("/dat") || currentPath.startsWith("/trainningcar") || currentPath.startsWith("/card") || currentPath.startsWith("/teacher") ? systemItems : traineeItems}
+      onChange={(newOptions) => {
+        const selectedOption = newOptions.find(option => option.checked === "on");
+        if (selectedOption) selectedOption.onClick();
+      }}
+      aria-label="Chọn danh mục"
+      className="w-60"
+    >
+      {(list) => (
+        <>
+          <EuiPopoverTitle paddingSize="s">Tìm kiếm</EuiPopoverTitle>
+          {list}
+        </>
+      )}
+    </EuiSelectable>
+  ),
+  popoverProps: { 
+    panelPaddingSize: "100", 
+  },
+    });
+    }
 
     return (
       <EuiHeaderBreadcrumbs

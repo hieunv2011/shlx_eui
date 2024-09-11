@@ -1,4 +1,6 @@
 export {default as CourseSearch} from './Course/CourseSearch'
+export {default as TraineesSearch} from './Trainees/TraineesSearch'
+
 export {default as Sidebar} from './Sidebar'
 export {default as Sidebar_test} from './Sidebar_test'
 export {default as Breadcrumbs} from './Breadcrumbs'

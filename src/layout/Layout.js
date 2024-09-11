@@ -75,6 +75,11 @@ const Layout = () => {
             darkMode={darkMode}
             setDarkMode={setDarkMode}
           />
+          {/* <Header
+            toggleSide={toggleSide}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+          /> */}
         </EuiPageTemplate.Header>
         <EuiPageTemplate.Section paddingSize="l" restrictWidth="false">
           <Outlet />

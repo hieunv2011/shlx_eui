@@ -215,23 +215,6 @@ const CourseSearch = ({ onSearch }) => {
             size="m"
           />
         </div>
-      {/* <EuiFlexGroup responsive={false}>
-        <EuiSwitch
-          label="compressed"
-          checked={isCompressed}
-          onChange={(e) => setCompressed(e.target.checked)}
-        />
-        <EuiSwitch
-          label="disabled"
-          checked={isDisabled}
-          onChange={(e) => setDisabled(e.target.checked)}
-        />
-        <EuiSwitch
-          label="readOnly"
-          checked={isReadOnly}
-          onChange={(e) => setReadOnly(e.target.checked)}
-        />
-      </EuiFlexGroup> */}
     </>
   );
 };

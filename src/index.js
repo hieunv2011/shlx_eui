@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { EuiProvider, euiStylisPrefixer } from '@elastic/eui';
 import createCache from '@emotion/cache';
+import { lightFormat } from "date-fns";
 const queryClient = new QueryClient();
 const cache = createCache({
   key: 'codesandbox',
@@ -13,13 +14,14 @@ const cache = createCache({
   container: document.querySelector('meta[name="emotion-styles"]'),
 });
 cache.compat = true;
+// const colorMode = 'light';
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <EuiProvider colorMode="light">
     <QueryClientProvider client={queryClient}>
         <App />
     </QueryClientProvider>
-  </EuiProvider>
+    </EuiProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

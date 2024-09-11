@@ -1,8 +1,8 @@
 import { getFromBaseUrl } from './baseUrl';
 
-const COURSE_API_URL = `${getFromBaseUrl()}/trainees`;
+const COURSE_API_URL = `${getFromBaseUrl()}outdoor-sessions`;
 
-export const fetchTrainnes = async (params) => {
+export const fetchOutdoor = async (params) => {
   const token = localStorage.getItem('token'); 
 
   const query = new URLSearchParams(params).toString();
@@ -13,7 +13,7 @@ export const fetchTrainnes = async (params) => {
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch trainees');
+    throw new Error('Failed to fetch outdoor-sessions');
   }
   return response.json();
 };

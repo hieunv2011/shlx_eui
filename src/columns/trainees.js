@@ -6,20 +6,20 @@ import {
   EuiAvatar,
   EuiText,
   EuiLink,
+  EuiProvider,
 } from "@elastic/eui";
 import { format } from "date-fns";
-import { render } from "@testing-library/react";
-
-export const columns = [
-  {
-    field: "so_tt",
-    name: "STT",
-    mobileOptions: {
-      header: true,
-    },
-    width: "50px",
-    align: "center",
-  },
+// Chỉnh sửa để nhận hàm `showModal` từ component cha
+export const createColumns = (showModal,showCard) => [
+  // {
+  //   field: "so_tt",
+  //   name: "STT",
+  //   mobileOptions: {
+  //     header: true,
+  //   },
+  //   width: "50px",
+  //   align: "center",
+  // },
   {
     field: "anh_chan_dung",
     name: "",
@@ -34,13 +34,13 @@ export const columns = [
   {
     field: "ho_va_ten",
     name: "Họ và tên",
-    render: (cellValue) => {
-      return <EuiLink>{cellValue}</EuiLink>;
-    },
+    render: (trainee, item) => (
+      <EuiLink>{trainee}</EuiLink>
+    ),
     mobileOptions: {
       header: true,
     },
-    width: "200px",
+    width: "170px",
   },
   {
     field: "ma_dk",
@@ -48,14 +48,15 @@ export const columns = [
     mobileOptions: {
       header: true,
     },
-    width: "200px",
+    width: "250px",
   },
   {
     field: "hang_daotao",
-    name: "Hạng đào tạo",
+    name: "Hạng ĐT",
     mobileOptions: {
       header: true,
     },
+    align:"center"
   },
   {
     field: "ngay_sinh",
@@ -64,6 +65,7 @@ export const columns = [
     mobileOptions: {
       header: true,
     },
+    width:"100px"
   },
   {
     field: "gioi_tinh",
@@ -75,6 +77,7 @@ export const columns = [
     mobileOptions: {
       header: true,
     },
+    align:"center"
   },
   {
     field: "so_cmt",
@@ -83,10 +86,22 @@ export const columns = [
     mobileOptions: {
       header: true,
     },
+    width:"130px"
+  },
+  {
+    field: "rfid_card_name",
+    name: "ID thẻ",
+    align: "center",
+    render: (trainee, item) => (
+      <EuiLink onClick={() => showCard(item)}>{trainee}</EuiLink>
+    ),
+    mobileOptions: {
+      header: true,
+    },
   },
   {
     field: "rfid_card",
-    name: "ID thẻ",
+    name: "Số thẻ",
     align: "center",
     mobileOptions: {
       header: true,
@@ -128,43 +143,40 @@ export const columns = [
     name: "Thao tác",
     align: "center",
     render: (item) => (
-      <div className="flex">
-        <EuiToolTip position="top" content={`Chỉnh sửa thông tin`}>
+      <EuiProvider className="flex">
+        <EuiToolTip position="top" content={`Thông tin học viên`}>
           <EuiButtonIcon
-            iconType="documentEdit"
+            iconType="indexEdit"
             aria-label="Chỉnh sửa"
             size="s"
-            // onClick={() => handleModalOpen(item)}
             color="primary"
-            className="bg-blue-100 mx-2"
+            className="mx-2"
           />
         </EuiToolTip>
-        <EuiToolTip position="top" content={`Đồng bộ kết thúc khoá`}>
+        <EuiToolTip position="top" content={`Đăng ký vân tay`}>
           <EuiButtonIcon
-            iconType="push"
+            iconType="userAvatar"
             aria-label="Đồng bộ"
             size="s"
-            // onClick={() => handleModalOpen(item)}
             color="danger"
-            className="bg-red-100 mx-2"
+            className="mx-2"
           />
         </EuiToolTip>
-        <EuiToolTip position="top" content={`Xoá khoá học`}>
+        <EuiToolTip position="top" content={`Đăng ký nhận dạng khuôn mặt`}>
           <EuiButtonIcon
-            iconType="cross"
+            iconType="faceHappy"
             aria-label="Xoá"
             size="s"
-            // onClick={() => handleModalOpen(item)}
             color="success"
-            className="bg-green-100 mx-2"
+            className="mx-2"
           />
         </EuiToolTip>
-      </div>
+      </EuiProvider>
     ),
     mobileOptions: {
       header: true,
     },
     width: "120px",
-    className: "sticky right-0 bg-white",
+    className: "sticky right-0",
   },
 ];

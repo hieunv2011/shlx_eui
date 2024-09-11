@@ -3,6 +3,7 @@ import { fetchCourses } from '../api/course';
 import { fetchMe } from '../api/me';
 import { fetchProvinces } from '../api/province';
 import { fetchTrainnes } from "../api/trainees";
+import { fetchOutdoor } from "../api/outdoor";
 
 export const useCourses = (params = {}) => {
   return useQuery({
@@ -28,10 +29,19 @@ export const useProvinces = () => {
   });
 };
 
-export const useTrainees = () => {
+export const useTrainees = (params = {}) => {
   return useQuery({
-    queryKey: ['trainees'],
-    queryFn: fetchTrainnes,
+    queryKey: ['trainees', params],
+    queryFn: () => fetchTrainnes(params),
     enabled: true,
+  });
+};
+
+export const useOutdoor = (params = {}) => {
+  return useQuery({
+    queryKey: ['outdoor-session', params],
+    queryFn: () => fetchOutdoor(params),
+    // enabled: true,
+    enabled: !!params.trainee_id
   });
 };
