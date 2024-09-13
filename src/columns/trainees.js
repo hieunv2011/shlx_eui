@@ -11,7 +11,7 @@ import {
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 // Chỉnh sửa để nhận hàm `showModal` từ component cha
-export const createColumns = (showModal,showCard,showInfo,showFinger,) => [
+export const createColumns = (showModal,showCard,showInfo,showFinger,showFace) => [
   // {
   //   field: "so_tt",
   //   name: "STT",
@@ -157,7 +157,7 @@ export const createColumns = (showModal,showCard,showInfo,showFinger,) => [
         </EuiToolTip>
         <EuiToolTip position="top" content={`Đăng ký vân tay`}>
           <EuiButtonIcon
-            iconType="push"
+            iconType="userAvatar"
             aria-label="Đồng bộ"
             size="s"
             color="danger"
@@ -172,6 +172,7 @@ export const createColumns = (showModal,showCard,showInfo,showFinger,) => [
             size="s"
             color="success"
             className="mx-2"
+            onClick={() => showFace(item)}
           />
         </EuiToolTip>
       </EuiProvider>

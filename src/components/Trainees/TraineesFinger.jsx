@@ -42,6 +42,15 @@ function TraineesFinger({ trainee, isModalVisible, closeModal, traineeId }) {
     setPageSize(newPageSize || 5);
   };
 
+  //Selection
+  const [selectedDevices, setSelectedDevices] = useState([]);
+  const onSelectionChange = (selectedItems) => {
+    setSelectedDevices(selectedItems);
+  };
+  const selection = {
+    onSelectionChange: onSelectionChange,
+  };
+
   const pagination = {
     pageIndex,
     pageSize,
@@ -153,7 +162,9 @@ function TraineesFinger({ trainee, isModalVisible, closeModal, traineeId }) {
                   hasShadow
                   alt="user"
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsM1ZKWV1TkifWEacxoobZzSA_FuQvAw6ySg&s"
-                  caption={<p className="w-32">Chọn thiết bị lấy vân tay trước</p>}
+                  caption={
+                    <p className="w-32">Chọn thiết bị lấy vân tay trước</p>
+                  }
                 />
               </EuiFlexGroup>
             </EuiPanel>
@@ -167,6 +178,8 @@ function TraineesFinger({ trainee, isModalVisible, closeModal, traineeId }) {
                 columns={columns} // Cấu trúc cột
                 pagination={pagination} // Phân trang
                 onChange={onTableChange} // Xử lý thay đổi trang
+                selection={selection}
+                itemId="branch_id"
               />
             </EuiPanel>
           </EuiModalBody>

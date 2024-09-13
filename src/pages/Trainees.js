@@ -74,6 +74,7 @@ const Trainees = () => {
   const [isCardVisible, setIsCardVisible] = useState(false);
   const [isInfoVisible, setIsInfoVisible] = useState(false);
   const [isFingerVisible, setIsFingerVisible] = useState(false);
+  const [isFaceVisible, setIsFaceVisible] = useState(false);
 
   const [selectedTrainee, setSelectedTrainee] = useState("");
   const [selectedTraineeId, setSelectedTraineeId] = useState("");
@@ -82,6 +83,7 @@ const Trainees = () => {
   const closeCard = () => setIsCardVisible(false);
   const closeInfo = () => setIsInfoVisible(false);
   const closeFinger = () => setIsFingerVisible(false);
+  const closeFace = () => setIsFaceVisible(false);
 
   const showModal = (trainee) => {
     setSelectedTrainee(trainee);
@@ -101,14 +103,19 @@ const Trainees = () => {
     setSelectedTraineeId(trainee.id);
     setIsFingerVisible(true);
   };
+  const showFace = (trainee) => {
+    setSelectedTrainee(trainee);
+    setSelectedTraineeId(trainee.id);
+    setIsFaceVisible(true);
+  };
 
   //Logic Table
   const columns = createColumns(
     showModal,
     showCard,
     showInfo,
-    showFinger
-    // showFace
+    showFinger,
+    showFace
   );
   const onTableChange = ({ page }) => {
     if (page) {
@@ -206,61 +213,12 @@ const Trainees = () => {
         isModalVisible={isFingerVisible}
         closeModal={closeFinger}
       />
-      {/*
-      <TraineesFinger
-        trainee={selectedTrainee}
-        traineeId={selectedTraineeId}
-        isModalVisible={isFingerVisible}
-        closeModal={closeFinger}
-      />
       <TraineesFace
         trainee={selectedTrainee}
         traineeId={selectedTraineeId}
         isModalVisible={isFaceVisible}
         closeModal={closeFace}
-      /> */}
-      {/* <EuiSplitPanel.Outer direction="row">
-        <EuiSplitPanel.Inner color="danger">1</EuiSplitPanel.Inner>
-        <EuiSplitPanel.Inner color="success">2</EuiSplitPanel.Inner>
-      </EuiSplitPanel.Outer>
-      <>
-        {!showPart2 ? (
-          // Hiển thị chỉ phần 1 nếu chưa có phần 2
-          <div style={{ height: "200px" }} className="bg-red-400">
-            <EuiText>
-              <div>{textPart1}</div>
-              <EuiButton onClick={togglePart2}>Hiển Thị Phần 2</EuiButton>
-            </EuiText>
-          </div>
-        ) : (
-          // Khi phần 2 hiển thị, dùng EuiResizableContainer
-          <EuiResizableContainer style={{ height: "200px" }}>
-            {(EuiResizablePanel, EuiResizableButton) => (
-              <>
-                <EuiResizablePanel initialSize={50} minSize="30%" tabIndex={0}>
-                  <EuiText>
-                    <div>{textPart1}</div>
-                  </EuiText>
-                </EuiResizablePanel>
-                <EuiResizableButton />
-                <EuiResizablePanel
-                  initialSize={50}
-                  minSize="200px"
-                  tabIndex={0}
-                >
-                  <EuiText>{textPart2}</EuiText>
-                  <EuiButton
-                    onClick={togglePart2}
-                    style={{ marginTop: "10px" }}
-                  >
-                    Ẩn Phần 2
-                  </EuiButton>
-                </EuiResizablePanel>
-              </>
-            )}
-          </EuiResizableContainer>
-        )}
-      </> */}
+      />
     </EuiContext>
   );
 };
