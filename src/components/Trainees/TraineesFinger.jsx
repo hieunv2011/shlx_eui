@@ -23,7 +23,7 @@ function TraineesFinger({ trainee, isModalVisible, closeModal, traineeId }) {
   // Dữ liệu từ API
   const { data } = useAd();
   const devices = data?.items || [];
-  console.log(devices);
+  // console.log(devices);
 
   // State quản lý số trang và số lượng hàng mỗi trang
   const [pageIndex, setPageIndex] = useState(0);

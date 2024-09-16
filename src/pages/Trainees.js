@@ -28,19 +28,6 @@ import {
 } from "../components";
 import { createColumns } from "../columns/trainees";
 import { useParams } from "react-router-dom";
-
-const textPart1 = (
-  <>
-    <p>Đây là nội dung phần 1.</p>
-  </>
-);
-
-const textPart2 = (
-  <>
-    <p>Đây là nội dung phần 2.</p>
-  </>
-);
-
 const Trainees = () => {
   // const { data } = useTrainees();
   // const trainees = data?.items || [];

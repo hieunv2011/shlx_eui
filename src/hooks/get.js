@@ -1,14 +1,15 @@
-import { useQuery } from '@tanstack/react-query';
-import { fetchCourses } from '../api/course';
-import { fetchMe } from '../api/me';
-import { fetchProvinces } from '../api/province';
+import { useQuery } from "@tanstack/react-query";
+import { fetchCourses } from "../api/course";
+import { fetchMe } from "../api/me";
+import { fetchProvinces } from "../api/province";
 import { fetchTrainnes } from "../api/trainees";
 import { fetchOutdoor } from "../api/outdoor";
 import { fetchAd } from "../api/attendance_devices";
+import { fetchDat } from "../api/dat";
 
 export const useCourses = (params = {}) => {
   return useQuery({
-    queryKey: ['courses', params],
+    queryKey: ["courses", params],
     queryFn: () => fetchCourses(params),
     enabled: true,
   });
@@ -16,7 +17,7 @@ export const useCourses = (params = {}) => {
 
 export const useMe = () => {
   return useQuery({
-    queryKey: ['me'],
+    queryKey: ["me"],
     queryFn: fetchMe,
     enabled: true,
   });
@@ -24,7 +25,7 @@ export const useMe = () => {
 
 export const useProvinces = () => {
   return useQuery({
-    queryKey: ['provinces'],
+    queryKey: ["provinces"],
     queryFn: fetchProvinces,
     enabled: true,
   });
@@ -32,7 +33,7 @@ export const useProvinces = () => {
 
 export const useTrainees = (params = {}) => {
   return useQuery({
-    queryKey: ['trainees', params],
+    queryKey: ["trainees", params],
     queryFn: () => fetchTrainnes(params),
     enabled: true,
   });
@@ -40,17 +41,25 @@ export const useTrainees = (params = {}) => {
 
 export const useOutdoor = (params = {}) => {
   return useQuery({
-    queryKey: ['outdoor-session', params],
+    queryKey: ["outdoor-session", params],
     queryFn: () => fetchOutdoor(params),
     // enabled: true,
-    enabled: !!params.trainee_id
+    enabled: !!params.trainee_id,
   });
 };
 export const useAd = (params = {}) => {
   return useQuery({
-    queryKey: ['attendance_devices', params],
+    queryKey: ["attendance_devices", params],
     queryFn: () => fetchAd(params),
     enabled: true,
     // enabled: !!params.trainee_id
+  });
+};
+
+export const useDat = (params = {}) => {
+  return useQuery({
+    queryKey: ["tracking_devices", params],
+    queryFn: () => fetchDat(params),
+    enabled: true,
   });
 };
