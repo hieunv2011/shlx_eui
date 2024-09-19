@@ -118,7 +118,7 @@ export const createColumns = (
   },
   {
     field: "status",
-    name: "Đồng bộ",
+    name: "Trạng thái",
     align: "center",
     render: (cellValue) => {
       if (cellValue === true) {

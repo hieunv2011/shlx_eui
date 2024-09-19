@@ -14,13 +14,10 @@ import {
   EuiButton,
 } from "@elastic/eui";
 import { useDat } from "../hooks/get";
-import { columns } from "../columns/dat";
-// import TraineesSearch from "../components/Trainees/TraineesSearch";
-// import TraineesModal from "../components/Trainees/TraineesModal";
-// import TraineesCard from "../components/Trainees/TraineesCard";
 import {
   TraineesSearch,
   DatModal,
+  DatSearch,
 } from "../components";
 import { createColumns } from "../columns/dat";
 import { useParams } from "react-router-dom";
@@ -45,7 +42,7 @@ const Dat = () => {
       }));
     }
   }, [course_id]);
-  const { data: datData, error, isLoading } = useDat(searchParams);
+  const { data: datData, error, isLoading,refetch } = useDat(searchParams);
   const dat = Array.isArray(datData?.items) ? datData.items : [];
   // console.log(dat);
 
@@ -53,7 +50,11 @@ const Dat = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDat, setSelectedDat] = useState("");
   const [selectedDatId, setSelectedDatId] = useState("");
-  const closeModal = () => setIsModalVisible(false);
+  const closeModal = () => {
+    setIsModalVisible(false);
+    setSelectedDat("");  // Reset selected data
+    setSelectedDatId(""); // Reset selected data ID
+  };
   const showModal = (dat) => {
     setSelectedDat(dat);
     setSelectedDatId(dat.id);
@@ -92,6 +93,10 @@ const Dat = () => {
     },
   };
 
+  const refreshData = () => {
+    refetch(); // Gọi refetch để lấy lại dữ liệu mới từ API
+  };
+
   return (
     <EuiContext
       i18n={{
@@ -109,7 +114,7 @@ const Dat = () => {
             isCollapsible={true}
             initialIsOpen={false}
           >
-            <TraineesSearch
+            <DatSearch
               onSearch={(params) => setSearchParams(params)}
               className=""
             />
@@ -139,6 +144,7 @@ const Dat = () => {
         isModalVisible={isModalVisible}
         closeModal={closeModal}
         datId={selectedDatId}
+        refreshData={refreshData}
       />
     </EuiContext>
   );
