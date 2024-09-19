@@ -9,6 +9,7 @@ export { default as TraineesSearch } from "./Trainees/TraineesSearch";
 
 export { default as DatModal } from "./Dat/DatModal";
 export { default as DatSearch } from "./Dat/DatSearch";
+export { default as DatAddNew } from "./Dat/DatAddNew";
 
 export { default as Sidebar } from "./Sidebar";
 export { default as Sidebar_test } from "./Sidebar_test";

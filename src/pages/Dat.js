@@ -18,6 +18,7 @@ import {
   TraineesSearch,
   DatModal,
   DatSearch,
+  DatAddNew
 } from "../components";
 import { createColumns } from "../columns/dat";
 import { useParams } from "react-router-dom";
@@ -45,9 +46,11 @@ const Dat = () => {
   const { data: datData, error, isLoading,refetch } = useDat(searchParams);
   const dat = Array.isArray(datData?.items) ? datData.items : [];
   // console.log(dat);
-
+  
   //Open Modal
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isAddNewVisible, setIsAddNewVisible] = useState(false);
+
   const [selectedDat, setSelectedDat] = useState("");
   const [selectedDatId, setSelectedDatId] = useState("");
   const closeModal = () => {
@@ -59,6 +62,13 @@ const Dat = () => {
     setSelectedDat(dat);
     setSelectedDatId(dat.id);
     setIsModalVisible(true);
+  };
+
+  const closeAddNew = () => {
+    setIsAddNewVisible(false);
+  };
+  const showAddNew = () => {
+    setIsAddNewVisible(true);
   };
 
   //Logic Table
@@ -116,13 +126,15 @@ const Dat = () => {
           >
             <DatSearch
               onSearch={(params) => setSearchParams(params)}
+              showAddNew={showAddNew}
               className=""
             />
           </EuiCollapsibleNavGroup>
         </EuiShowFor>
         <EuiHideFor sizes={["xs", "s", "m", "l"]}>
-          <TraineesSearch
+          <DatSearch
             onSearch={(params) => setSearchParams(params)}
+            showAddNew={showAddNew}
             className=""
           />
         </EuiHideFor>
@@ -145,6 +157,10 @@ const Dat = () => {
         closeModal={closeModal}
         datId={selectedDatId}
         refreshData={refreshData}
+      />
+      <DatAddNew
+        isModalVisible={isAddNewVisible}
+        closeModal={closeAddNew}
       />
     </EuiContext>
   );

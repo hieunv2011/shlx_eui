@@ -58,7 +58,7 @@ export const createColumns = (
       header: true,
     },
     align: "center",
-    width: "160px",
+    width: "140px",
   },
   {
     field: "config",
@@ -66,7 +66,7 @@ export const createColumns = (
     mobileOptions: {
       header: true,
     },
-    width: "160px",
+    width: "140px",
     align: "center",
     render: (config) => {
       try {

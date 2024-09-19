@@ -14,12 +14,12 @@ import {
 import { useCourses } from "../../hooks/get";
 import moment from "moment";
 
-const DatSearch = ({ onSearch }) => {
+const DatSearch = ({ onSearch, showAddNew }) => {
   // Params Search
   const [name, setName] = useState("");
-  const [rf_card_name, setRf_card_name] = useState("");
-  const [synced, setSynced] = useState("-1");
-  const [course_id, setCourse_id] = useState("");
+  const [serial_no, setSerial_no] = useState("");
+  const [board_serial, setBoard_serial] = useState("");
+  const [status, setStatus] = useState("-1");
 
   // Điều chỉnh style cho các input
   const [isCompressed, setCompressed] = useState(false);
@@ -38,24 +38,9 @@ const DatSearch = ({ onSearch }) => {
   // Option trạng thái đồng bộ
   const options = [
     { value: -1, label: "Tất cả" },
-    { value: 0, label: "Lỗi" },
-    { value: 1, label: "Thành công" },
+    { value: 1, label: "Đang hoạt động" },
+    { value: 0, label: "Không hoạt động" },
   ];
-
-  // Xử lý việc chọn khoá học
-  const [proOptions, setProOptions] = useState([]);
-  const { data: courses } = useCourses();
-
-  useEffect(() => {
-    if (courses) {
-      const formattedOptions = courses.items.map((course) => ({
-        value: course.id,
-        text: course.ten_khoa_hoc,
-      }));
-
-      setProOptions([{ value: "", text: "Chọn khóa học" }, ...formattedOptions]);
-    }
-  }, [courses]);
 
   // Date picker
   const [startDate, setStartDate] = useState(moment());
@@ -64,7 +49,7 @@ const DatSearch = ({ onSearch }) => {
   // Trigger tìm kiếm
   const handleSearch = (e) => {
     e.preventDefault();
-    const searchParams = { rf_card_name, name, synced, course_id, startDate, endDate };
+    const searchParams = { serial_no, board_serial, name, status, startDate, endDate };
 
     const filteredParams = Object.fromEntries(
       Object.entries(searchParams).filter(([_, value]) => value !== "")
@@ -76,18 +61,6 @@ const DatSearch = ({ onSearch }) => {
   return (
     <>
       <EuiFlexGroup alignItems="center" className="px-8">
-        <EuiFlexItem>
-          <EuiFormRow label="Tên khoá học">
-            <EuiSelect
-              options={proOptions}
-              value={course_id}
-              onChange={(e) => setCourse_id(e.target.value)}
-              compressed={isCompressed}
-              disabled={isDisabled}
-              readOnly={isReadOnly}
-            />
-          </EuiFormRow>
-        </EuiFlexItem>
 
         <EuiFlexItem>
           <EuiFormRow label="Tên máy">
@@ -104,31 +77,45 @@ const DatSearch = ({ onSearch }) => {
         </EuiFlexItem>
 
         <EuiFlexItem>
-          <EuiFormRow label="ID thẻ">
+          <EuiFormRow label="Số IMEI">
             <EuiFieldText
-              placeholder="Nhập ID thẻ ..."
+              placeholder="Nhập số IMEI ..."
               compressed={isCompressed}
               disabled={isDisabled}
               readOnly={isReadOnly}
               aria-label="Use aria labels when no actual label is in use"
-              value={rf_card_name}
-              onChange={(e) => setRf_card_name(e.target.value)}
+              value={serial_no}
+              onChange={(e) => setSerial_no(e.target.value)}
             />
           </EuiFormRow>
         </EuiFlexItem>
 
         <EuiFlexItem>
-          <EuiFormRow label="Đồng bộ">
+          <EuiFormRow label="Số IMEI">
+            <EuiFieldText
+              placeholder="Nhập số IMEI ..."
+              compressed={isCompressed}
+              disabled={isDisabled}
+              readOnly={isReadOnly}
+              aria-label="Use aria labels when no actual label is in use"
+              value={board_serial}
+              onChange={(e) => setBoard_serial(e.target.value)}
+            />
+          </EuiFormRow>
+        </EuiFlexItem>
+
+        <EuiFlexItem>
+          <EuiFormRow label="Trạng thái">
             <EuiSelect
               options={options}
-              value={synced}
-              onChange={(e) => setSynced(e.target.value)}
+              valuet={status}
+              onChange={(e) => setStatus(e.target.value)}
               compressed={isCompressed}
               disabled={isDisabled}
               readOnly={isReadOnly}
             />
           </EuiFormRow>
-        </EuiFlexItem>
+        </EuiFlexItem> 
 
         <EuiFlexItem>
           <EuiFormRow label="Ngày bắt đầu - kết thúc" className="w-80">
@@ -163,11 +150,11 @@ const DatSearch = ({ onSearch }) => {
         <EuiButton
           fill
           color="success"
-          onClick={handleSearch}
-          iconType="save"
+          onClick={showAddNew}
+          iconType="addDataApp"
           className="text-white"
         >
-          Đồng bộ
+          Thêm thiết bị
         </EuiButton>
         <EuiButtonIcon
           display="base"
