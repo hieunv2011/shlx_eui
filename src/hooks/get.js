@@ -6,6 +6,7 @@ import { fetchTrainnes } from "../api/trainees";
 import { fetchOutdoor } from "../api/outdoor";
 import { fetchAd } from "../api/attendance_devices";
 import { fetchDat } from "../api/dat";
+import { fetchVehicles } from "../api/vehicle";
 
 export const useCourses = (params = {}) => {
   return useQuery({
@@ -60,6 +61,14 @@ export const useDat = (params = {}) => {
   return useQuery({
     queryKey: ["tracking_devices", params],
     queryFn: () => fetchDat(params),
+    enabled: true,
+  });
+};
+
+export const useVehicle = (params = {}) => {
+  return useQuery({
+    queryKey: ["vehicles", params],
+    queryFn: () => fetchVehicles(params),
     enabled: true,
   });
 };
