@@ -9,6 +9,7 @@ import { fetchDat } from "../api/dat";
 import { fetchVehicles } from "../api/vehicle";
 import { fetchCard } from "../api/rfcard";
 import { fetchTeacher } from "../api/teacher";
+import { fetchSession } from "../api/outdoorsession";
 
 export const useCourses = (params = {}) => {
   return useQuery({
@@ -86,6 +87,13 @@ export const useTeacher = (params = {}) => {
   return useQuery({
     queryKey: ["instructors", params],
     queryFn: () => fetchTeacher(params),
+    enabled: true,
+  });
+};
+export const useSession = (params = {}) => {
+  return useQuery({
+    queryKey: ["outdoor-session", params],
+    queryFn: () => fetchSession(params),
     enabled: true,
   });
 };
