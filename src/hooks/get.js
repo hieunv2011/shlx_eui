@@ -8,6 +8,7 @@ import { fetchAd } from "../api/attendance_devices";
 import { fetchDat } from "../api/dat";
 import { fetchVehicles } from "../api/vehicle";
 import { fetchCard } from "../api/rfcard";
+import { fetchTeacher } from "../api/teacher";
 
 export const useCourses = (params = {}) => {
   return useQuery({
@@ -78,6 +79,13 @@ export const useCard = (params = {}) => {
   return useQuery({
     queryKey: ["rfcards", params],
     queryFn: () => fetchCard(params),
+    enabled: true,
+  });
+};
+export const useTeacher = (params = {}) => {
+  return useQuery({
+    queryKey: ["instructors", params],
+    queryFn: () => fetchTeacher(params),
     enabled: true,
   });
 };

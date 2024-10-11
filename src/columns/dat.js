@@ -14,15 +14,6 @@ import { useNavigate } from "react-router-dom";
 export const createColumns = (
   showModal,
 ) => [
-  // {
-  //   field: "so_tt",
-  //   name: "STT",
-  //   mobileOptions: {
-  //     header: true,
-  //   },
-  //   width: "50px",
-  //   align: "center",
-  // },
   {
     field: "name",
     name: "Tên thiết bị",

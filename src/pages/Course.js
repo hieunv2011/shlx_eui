@@ -15,12 +15,10 @@ import { createColumns } from "../columns/course_table";
 import { useNavigate } from "react-router-dom";
 
 const Course = () => {
-  // const { data } = useCourses();
-  // const courses = data?.items || [];
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState({});
   const [isResponsive, setIsResponsive] = useState(true);
-  
+
   //Pagination
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);

@@ -1,14 +1,13 @@
 // hooks/post.js
-import { useMutation } from '@tanstack/react-query';
+import { dataTagSymbol, useMutation } from '@tanstack/react-query';
 import { login } from '../api/login';
 import { postDat } from '../api/dat';
 
-// Custom hook để thực hiện login
 export const useLogin = () => {
   return useMutation({
     mutationFn: login,
     onSuccess: (data) => {
-      // Lưu token vào localStorage hoặc xử lý khi login thành công
+      console.log(data);
       localStorage.setItem('token', data.access_token);
     },
     onError: (error) => {

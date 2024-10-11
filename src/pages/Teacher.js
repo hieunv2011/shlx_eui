@@ -6,53 +6,42 @@ import {
   EuiCollapsibleNavGroup,
   EuiShowFor,
   EuiHideFor,
-  EuiProvider,
-  EuiText,
   EuiPanel,
-  EuiSplitPanel,
-  EuiResizableContainer,
-  EuiButton,
+  EuiText
 } from "@elastic/eui";
-import { useDat } from "../hooks/get";
+import { useTeacher } from "../hooks/get";
 import {
-  TraineesSearch,
   DatModal,
   DatSearch,
-  DatAddNew
 } from "../components";
-import { createColumns } from "../columns/dat";
+import { createColumns } from "../columns/teacher";
 import { useParams } from "react-router-dom";
+import TeacherAddNew from "../components/Teacher/TeacherAddNew";
+import TeacherSearch from "../components/Teacher/TeacherSearch";
 
 const Teacher = () => {
-  // const { data } = useTrainees();
-  // const trainees = data?.items || [];
-  //test
-  const { course_id } = useParams();
-  // console.log(course_id);
-
   const [searchParams, setSearchParams] = useState({});
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [showPerPageOptions, setShowPerPageOptions] = useState(true);
-
-  useEffect(() => {
-    if (course_id) {
-      setSearchParams((prevParams) => ({
-        ...prevParams,
-        course_id: course_id,
-      }));
-    }
-  }, [course_id]);
-  const { data: datData, error, isLoading,refetch } = useDat(searchParams);
-  const dat = Array.isArray(datData?.items) ? datData.items : [];
-  // console.log(dat);
-  
   //Open Modal
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAddNewVisible, setIsAddNewVisible] = useState(false);
-
+  
   const [selectedDat, setSelectedDat] = useState("");
   const [selectedDatId, setSelectedDatId] = useState("");
+
+  const { data: teacherData, error, isLoading, refetch } = useTeacher(searchParams);
+  if (isLoading) {
+    return <EuiText color="danger">Loading</EuiText>;
+  }
+  if (error) {
+    return <EuiText color="danger">Error loading courses</EuiText>;
+  }
+  // console.log(teacherData);
+  const teacher = Array.isArray(teacherData?.items) ? teacherData.items : [];
+  // console.log(dat);
+
   const closeModal = () => {
     setIsModalVisible(false);
     setSelectedDat("");  // Reset selected data
@@ -82,7 +71,7 @@ const Teacher = () => {
   };
 
   const togglePerPageOptions = () => setShowPerPageOptions(!showPerPageOptions);
-  const paginatedDat = dat.slice(
+  const paginatedTeacher = teacher.slice(
     pageIndex * pageSize,
     (pageIndex + 1) * pageSize
   );
@@ -90,7 +79,7 @@ const Teacher = () => {
   const pagination = {
     pageIndex,
     pageSize,
-    totalItemCount: dat.length,
+    totalItemCount: teacher.length,
     pageSizeOptions: [10, 20, 30],
     showPerPageOptions,
   };
@@ -124,7 +113,7 @@ const Teacher = () => {
             isCollapsible={true}
             initialIsOpen={false}
           >
-            <DatSearch
+            <TeacherSearch
               onSearch={(params) => setSearchParams(params)}
               showAddNew={showAddNew}
               className=""
@@ -132,7 +121,7 @@ const Teacher = () => {
           </EuiCollapsibleNavGroup>
         </EuiShowFor>
         <EuiHideFor sizes={["xs", "s", "m", "l"]}>
-          <DatSearch
+          <TeacherSearch
             onSearch={(params) => setSearchParams(params)}
             showAddNew={showAddNew}
             className=""
@@ -142,7 +131,7 @@ const Teacher = () => {
       <EuiSpacer size="m" />
       <EuiPanel paddingSize="m">
         <EuiBasicTable
-          items={paginatedDat}
+          items={paginatedTeacher}
           itemId="id"
           columns={columns}
           pagination={pagination}
@@ -158,7 +147,7 @@ const Teacher = () => {
         datId={selectedDatId}
         refreshData={refreshData}
       />
-      <DatAddNew
+      <TeacherAddNew
         isModalVisible={isAddNewVisible}
         closeModal={closeAddNew}
       />
