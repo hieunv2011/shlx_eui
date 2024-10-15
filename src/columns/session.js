@@ -1,14 +1,12 @@
 import React from "react";
 import {
-  EuiHealth,
   EuiButtonIcon,
   EuiToolTip,
-  EuiAvatar,
   EuiText,
   EuiLink,
   EuiProvider,
 } from "@elastic/eui";
-import { format, addMinutes } from "date-fns";
+import { format} from "date-fns";
 export const createColumns = (
   showModal,
 ) => [
@@ -21,7 +19,7 @@ export const createColumns = (
     mobileOptions: {
       header: true,
     },
-    width: "120px",
+    width: "150px",
   },
   {
     field: "device_id",
@@ -29,7 +27,7 @@ export const createColumns = (
     mobileOptions: {
       header: true,
     },
-    // width: "160px",
+    width: "80px",
   },
   {
     field: "instructor_name",
@@ -46,7 +44,7 @@ export const createColumns = (
       header: true,
     },
     align: "center",
-    width: "200px",
+    width: "180px",
     render: (item) => {
       return (
         <EuiText size="s">
@@ -141,10 +139,11 @@ export const createColumns = (
           return <EuiText>Không xác định</EuiText>;
       }
     },
+    width:"120px"
   },
   {
     field: "actions",
-    name: "Thao tác",
+    name: "",
     align: "center",
     render: (trainee, item) => (
       <EuiProvider className="flex">
@@ -163,6 +162,7 @@ export const createColumns = (
     mobileOptions: {
       header: true,
     },
-    className: "sticky right-0",
+    // className: "sticky right-0",
+    width:"20px"
   },
 ];

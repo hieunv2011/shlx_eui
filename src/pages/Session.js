@@ -6,67 +6,48 @@ import {
   EuiCollapsibleNavGroup,
   EuiShowFor,
   EuiHideFor,
-  EuiProvider,
-  EuiText,
   EuiPanel,
-  EuiSplitPanel,
-  EuiResizableContainer,
-  EuiButton,
 } from "@elastic/eui";
-import {useSession} from "../hooks/get";
-import {useDat} from "../hooks/get";
-import {
-  DatModal,
-  DatSearch,
-  DatAddNew
-} from "../components";
+import { useSession } from "../hooks/get";
+import { DatModal, DatSearch, DatAddNew } from "../components";
 import { createColumns } from "../columns/session";
 import { useParams } from "react-router-dom";
+import SessionSearch from "../components/Session/SessionSearch";
 
 const Session = () => {
   const { course_id } = useParams();
-
   const [searchParams, setSearchParams] = useState({});
   const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(10);
   const [showPerPageOptions, setShowPerPageOptions] = useState(true);
-
-  useEffect(() => {
-    if (course_id) {
-      setSearchParams((prevParams) => ({
-        ...prevParams,
-        course_id: course_id,
-      }));
-    }
-  }, [course_id]);
-  const { data: datData, error, isLoading,refetch } = useSession(searchParams);
-  console.log(datData);
-  const dat = Array.isArray(datData) ? datData : [];
-  //Open Modal
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAddNewVisible, setIsAddNewVisible] = useState(false);
-
   const [selectedDat, setSelectedDat] = useState("");
   const [selectedDatId, setSelectedDatId] = useState("");
+  useEffect(() => {
+    if (course_id) {
+      setSearchParams((prev) => ({ ...prev, course_id }));
+    }
+  }, [course_id]);
+
+  const { data: datData, refetch } = useSession(searchParams);
+  const dat = Array.isArray(datData) ? datData : [];
+
   const closeModal = () => {
     setIsModalVisible(false);
-    setSelectedDat("");  // Reset selected data
-    setSelectedDatId(""); // Reset selected data ID
+    setSelectedDat("");
+    setSelectedDatId("");
   };
+
   const showModal = (dat) => {
     setSelectedDat(dat);
     setSelectedDatId(dat.id);
     setIsModalVisible(true);
   };
 
-  const closeAddNew = () => {
-    setIsAddNewVisible(false);
-  };
-  const showAddNew = () => {
-    setIsAddNewVisible(true);
-  };
+  const closeAddNew = () => setIsAddNewVisible(false);
+  const showAddNew = () => setIsAddNewVisible(true);
 
-  //Logic Table
   const columns = createColumns(showModal);
   const onTableChange = ({ page }) => {
     if (page) {
@@ -76,7 +57,6 @@ const Session = () => {
     }
   };
 
-  const togglePerPageOptions = () => setShowPerPageOptions(!showPerPageOptions);
   const paginatedDat = dat.slice(
     pageIndex * pageSize,
     (pageIndex + 1) * pageSize
@@ -89,7 +69,9 @@ const Session = () => {
     pageSizeOptions: [10, 20, 30],
     showPerPageOptions,
   };
-  //i18n
+
+  const refreshData = () => refetch();
+
   const mappings = {
     en: {
       "euiTablePagination.rowsPerPageOption": "{rowsPerPage} dòng",
@@ -98,15 +80,12 @@ const Session = () => {
     },
   };
 
-  const refreshData = () => {
-    refetch(); // Gọi refetch để lấy lại dữ liệu mới từ API
-  };
-
   return (
     <EuiContext
       i18n={{
         mapping: mappings.en,
-        formatNumber: (value) => new Intl.NumberFormat("en").format(value),
+        formatNumber: (value) =>
+          new Intl.NumberFormat("en").format(value),
       }}
     >
       <EuiPanel paddingSize="m">
@@ -116,21 +95,19 @@ const Session = () => {
             iconType="logoGCPMono"
             iconSize="l"
             titleSize="s"
-            isCollapsible={true}
+            isCollapsible
             initialIsOpen={false}
           >
-            <DatSearch
+            <SessionSearch
               onSearch={(params) => setSearchParams(params)}
               showAddNew={showAddNew}
-              className=""
             />
           </EuiCollapsibleNavGroup>
         </EuiShowFor>
         <EuiHideFor sizes={["xs", "s", "m", "l"]}>
-          <DatSearch
+          <SessionSearch
             onSearch={(params) => setSearchParams(params)}
             showAddNew={showAddNew}
-            className=""
           />
         </EuiHideFor>
       </EuiPanel>

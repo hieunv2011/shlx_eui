@@ -17,7 +17,6 @@ import { useNavigate } from "react-router-dom";
 const Course = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState({});
-  const [isResponsive, setIsResponsive] = useState(true);
 
   //Pagination
   const [pageIndex, setPageIndex] = useState(0);

@@ -1,5 +1,5 @@
 // hooks/post.js
-import { dataTagSymbol, useMutation } from '@tanstack/react-query';
+import {useMutation } from '@tanstack/react-query';
 import { login } from '../api/login';
 import { postDat } from '../api/dat';
 

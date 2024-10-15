@@ -7,12 +7,8 @@ import {
   EuiSelect,
   EuiButton,
   EuiButtonIcon,
-  EuiDatePicker,
-  EuiDatePickerRange,
   useIsWithinBreakpoints
 } from "@elastic/eui";
-import { useCourses } from "../../hooks/get";
-import moment from "moment";
 
 const TeacherSearch = ({ onSearch, showAddNew }) => {
   // Params Search

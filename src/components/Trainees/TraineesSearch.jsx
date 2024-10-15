@@ -157,9 +157,6 @@ const TraineesSearch = ({ onSearch }) => {
       </EuiFlexGroup>
 
       <div className="flex flex-row space-x-2 px-8 pt-4 justify-end">
-        <EuiButton fill onClick={handleSearch} iconType="search">
-          Tìm kiếm
-        </EuiButton>
         <EuiButton
           fill
           color="success"

@@ -4,11 +4,9 @@ import {
     EuiButtonIcon,
     EuiToolTip,
     EuiAvatar,
-    EuiText,
     EuiLink,
     EuiProvider,
 } from "@elastic/eui";
-import { format } from "date-fns";
 // Chỉnh sửa để nhận hàm `showModal` từ component cha
 export const createColumns = (
     showModal,

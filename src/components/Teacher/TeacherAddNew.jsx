@@ -9,7 +9,6 @@ import {
   EuiButton,
   EuiFormRow,
   EuiFieldText,
-  EuiCheckbox,
   EuiPanel,
   EuiFlexGroup,
   EuiFlexItem,
@@ -17,7 +16,6 @@ import {
   EuiFilePicker,
   EuiDatePicker
 } from "@elastic/eui";
-import { postDat } from "../../api/dat";
 import moment from 'moment';
 
 const TeacherAddNew = ({ isModalVisible, closeModal }) => {

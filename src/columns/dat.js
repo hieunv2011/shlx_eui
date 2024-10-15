@@ -1,16 +1,11 @@
 import React from "react";
 import {
-  EuiHealth,
   EuiButtonIcon,
   EuiToolTip,
-  EuiAvatar,
   EuiText,
   EuiLink,
   EuiProvider,
 } from "@elastic/eui";
-// import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
-// Chỉnh sửa để nhận hàm `showModal` từ component cha
 export const createColumns = (
   showModal,
 ) => [
@@ -61,9 +56,6 @@ export const createColumns = (
     align: "center",
     render: (config) => {
       try {
-        // Chuyển đổi chuỗi config thành một đối tượng JavaScript
-        const parsedConfig = JSON.parse(config);
-
         // Kiểm tra và hiển thị giá trị của newVersion
         return <EuiText size="s">{JSON.parse(config).newVersion || "N/A"}</EuiText>;
       } catch (e) {
